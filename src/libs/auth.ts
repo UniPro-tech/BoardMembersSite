@@ -32,7 +32,15 @@ export const auth = betterAuth({
             if (!response.ok) {
               throw new Error("Failed to fetch user info");
             }
-            return response.json();
+            const userInfo = await response.json();
+            return {
+              id: userInfo.sub,
+              email: userInfo.email,
+              name: userInfo.name,
+              image: userInfo.picture,
+              emailVerified: userInfo.email_verified,
+              roles: userInfo.roles || [],
+            };
           },
           overrideUserInfo: true,
           mapProfileToUser: (profile) => {
@@ -42,6 +50,7 @@ export const auth = betterAuth({
               image: profile.image,
               emailVerified: profile.email_verified,
               role: profile.roles.includes("admin") ? "admin" : "user",
+              accountId: profile.sub,
             };
           },
         },
