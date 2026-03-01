@@ -90,13 +90,22 @@ export default function Client({
                     詳細
                   </Button>
                   {canStand && item.candidate.userId === userId && (
-                    <Button
-                      variant="outlined"
-                      color={"error"}
-                      onClick={() => onDelete(item.candidate.id)}
-                    >
-                      取り下げ
-                    </Button>
+                    <>
+                      <Button
+                        variant="outlined"
+                        color={"error"}
+                        onClick={() => onDelete(item.candidate.id)}
+                      >
+                        取り下げ
+                      </Button>
+                      <Button
+                        href={`/elections/${item.candidate.electionId}/candidate/${item.candidate.id}/edit`}
+                        variant="outlined"
+                        color={"primary"}
+                      >
+                        編集
+                      </Button>
+                    </>
                   )}
                   <Button
                     variant="outlined"
