@@ -1,0 +1,24 @@
+name: vote-system
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: vote_system_user
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: vote_system_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+volumes:
+  db_data:
+
+networks:
+  vote-system-network:
+    driver: bridge

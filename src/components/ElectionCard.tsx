@@ -1,0 +1,129 @@
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { headers } from "next/headers";
+import { unauthorized } from "next/navigation";
+import type { Election } from "@/classes/Election";
+import { auth } from "@/libs/auth";
+
+export default async function ElectionCard({
+  election,
+  isSimple,
+}: {
+  election: Election;
+  isSimple?: boolean;
+}) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) {
+    unauthorized();
+  }
+  const isAdmin = session.user.role === "admin";
+
+  const tags = [];
+  if (election.isActive) {
+    tags.push(
+      <Chip key="active" label="期間中" color="success" size="small" />,
+    );
+  }
+  if (election.canStand) {
+    tags.push(
+      <Chip
+        key="can-stand"
+        label="立候補受付中"
+        color="primary"
+        size="small"
+      />,
+    );
+  }
+  if (!election.canStand && new Date() < election.endAt) {
+    tags.push(
+      <Chip key="can-stand" label="投票受付中" color="warning" size="small" />,
+    );
+  }
+  if (!election.isActive && new Date() < election.startAt) {
+    tags.push(<Chip key="upcoming" label="未開始" color="info" size="small" />);
+  }
+  if (!election.isActive && new Date() > election.endAt) {
+    tags.push(<Chip key="ended" label="終了" color="default" size="small" />);
+  }
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          {election.title}
+        </Typography>
+        <Stack direction="row" spacing={2} className="my-2">
+          {tags}
+        </Stack>
+        <Stack direction="row" spacing={1} className="mb-2">
+          <Typography variant="body2" color="textSecondary">
+            開始日時: {election.startAt.toLocaleString()}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            立候補締切: {election.standDeadline.toLocaleString()}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            終了日時: {election.endAt.toLocaleString()}
+          </Typography>
+        </Stack>
+        <Typography variant="body1">
+          {election.description
+            ? isSimple
+              ? election.description.length > 20
+                ? `${election.description.substring(0, 20)}...`
+                : election.description
+              : election.description
+            : "説明なし"}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        {isAdmin && (
+          <Button
+            size="small"
+            color="primary"
+            href={`/elections/${election.id}/edit`}
+            variant="outlined"
+          >
+            編集
+          </Button>
+        )}
+        {isSimple && (
+          <Button
+            size="small"
+            color="primary"
+            href={`/elections/${election.id}`}
+            variant="outlined"
+          >
+            詳細を見る
+          </Button>
+        )}
+        {election.canStand && (
+          <Button
+            size="small"
+            color="secondary"
+            href={`/elections/${election.id}/stand`}
+            variant="outlined"
+          >
+            立候補する
+          </Button>
+        )}
+        {!election.canStand && new Date() < election.endAt && (
+          <Button
+            size="small"
+            color="secondary"
+            href={`/elections/${election.id}#candidate-list`}
+            variant="outlined"
+          >
+            投票する
+          </Button>
+        )}
+      </CardActions>
+    </Card>
+  );
+}
