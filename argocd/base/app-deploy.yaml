@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: boardmembers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: boardmembers
+  template:
+    metadata:
+      labels:
+        app: boardmembers
+    spec:
+      containers:
+        - name: boardmembers
+          image: registry.uniproject.jp/infra/boardmembers:1.0.0
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: boardmembers-secret
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+      imagePullSecrets:
+        - name: internal-harbor
+      volumes:
+        - name: app-image-storage
+          persistentVolumeClaim:
+            claimName: app-image-pvc

@@ -1,0 +1,14 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: boardmembers-updater
+  namespace: argocd
+spec:
+  namespace: argocd
+  applicationRefs:
+    - namePattern: "boardmembers"
+      images:
+        - alias: "boardmembers"
+          imageName: "registry.uniproject.jp/infra/boardmembers:x.x.x"
+          commonUpdateSettings:
+            updateStrategy: "semver"
