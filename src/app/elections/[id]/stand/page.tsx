@@ -13,6 +13,7 @@ import {
 import { notFound } from "next/navigation";
 import { Election } from "@/classes/Election";
 import StandForm from "@/components/Forms/StandForm";
+import { formatToLocaleStringJST } from "@/libs/date";
 
 export default async function StandingPage({
   params,
@@ -72,8 +73,8 @@ export default async function StandingPage({
 
             <Typography variant="body2" color="textSecondary" sx={{ my: 2 }}>
               立候補の受付期間は
-              {election.startAt.toLocaleString()} から{" "}
-              {election.standDeadline.toLocaleString()} までです。
+              {formatToLocaleStringJST(election.startAt)} から{" "}
+              {formatToLocaleStringJST(election.standDeadline)} までです。
             </Typography>
 
             <Alert severity="info" sx={{ my: 3, textAlign: "left" }}>

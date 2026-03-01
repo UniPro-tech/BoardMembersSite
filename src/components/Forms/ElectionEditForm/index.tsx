@@ -1,5 +1,6 @@
 import { Button, Stack, TextField } from "@mui/material";
 import type { Election } from "@/classes/Election";
+import { formatToDatetimeLocalJST } from "@/libs/date";
 import { updateElectionAction } from "./action";
 
 export default function ElectionEditForm({ election }: { election: Election }) {
@@ -27,7 +28,7 @@ export default function ElectionEditForm({ election }: { election: Election }) {
         type="datetime-local"
         required
         fullWidth
-        defaultValue={election.startAt.toISOString().slice(0, 16)}
+        defaultValue={formatToDatetimeLocalJST(election.startAt)}
       />
       <TextField
         label="立候補締切日時"
@@ -35,7 +36,7 @@ export default function ElectionEditForm({ election }: { election: Election }) {
         type="datetime-local"
         required
         fullWidth
-        defaultValue={election.standDeadline.toISOString().slice(0, 16)}
+        defaultValue={formatToDatetimeLocalJST(election.standDeadline)}
       />
       <TextField
         label="終了日時"
@@ -43,7 +44,7 @@ export default function ElectionEditForm({ election }: { election: Election }) {
         type="datetime-local"
         required
         fullWidth
-        defaultValue={election.endAt.toISOString().slice(0, 16)}
+        defaultValue={formatToDatetimeLocalJST(election.endAt)}
       />
       <Button type="submit" variant="contained" color="primary">
         編集

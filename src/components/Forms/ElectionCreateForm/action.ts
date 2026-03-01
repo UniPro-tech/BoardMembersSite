@@ -2,13 +2,16 @@
 
 import { redirect } from "next/navigation";
 import { Election } from "@/classes/Election";
+import { parseDatetimeLocalAsJST } from "@/libs/date";
 
 export const createElectionAction = async (formData: FormData) => {
   const title = formData.get("title") as string;
   const description = formData.get("description") as string | undefined;
-  const startAt = new Date(formData.get("startAt") as string);
-  const standDeadline = new Date(formData.get("standDeadline") as string);
-  const endAt = new Date(formData.get("endAt") as string);
+  const startAt = parseDatetimeLocalAsJST(formData.get("startAt") as string);
+  const standDeadline = parseDatetimeLocalAsJST(
+    formData.get("standDeadline") as string,
+  );
+  const endAt = parseDatetimeLocalAsJST(formData.get("endAt") as string);
 
   if (!title || !startAt || !standDeadline || !endAt) {
     throw new Error("必要なフィールドが不足しています");

@@ -13,6 +13,7 @@ import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { useState } from "react";
 import type { CandidateJSON } from "@/classes/Candidate";
 import type { VoteJSON } from "@/classes/Vote";
+import { nowUTC } from "@/libs/date";
 import type { Account, User } from "../../generated/prisma/client";
 import { toggleVote } from "./action";
 
@@ -40,8 +41,8 @@ export default function Client({
             userId: "temp-user-id",
             candidateId,
             electionId: "temp-election-id",
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            createdAt: nowUTC(),
+            updatedAt: nowUTC(),
           };
       setExistingVote(updatedVote);
     } catch {

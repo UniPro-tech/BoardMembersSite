@@ -13,6 +13,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Election } from "@/classes/Election";
 import { auth } from "@/libs/auth";
+import { formatToLocaleStringJST } from "@/libs/date";
 
 export default async function ElectionCard({
   election,
@@ -65,13 +66,13 @@ export default async function ElectionCard({
         </Stack>
         <Stack direction="row" spacing={1} className="mb-2">
           <Typography variant="body2" color="textSecondary">
-            開始日時: {election.startAt.toLocaleString()}
+            開始日時: {formatToLocaleStringJST(election.startAt)}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            立候補締切: {election.standDeadline.toLocaleString()}
+            立候補締切: {formatToLocaleStringJST(election.standDeadline)}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            終了日時: {election.endAt.toLocaleString()}
+            終了日時: {formatToLocaleStringJST(election.endAt)}
           </Typography>
         </Stack>
         <Typography variant="body1">

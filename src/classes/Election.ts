@@ -1,3 +1,4 @@
+import { nowUTC } from "@/libs/date";
 import prisma from "@/libs/prisma";
 import type { Election as PrismaElection } from "../generated/prisma/client";
 import { Candidate } from "./Candidate";
@@ -13,12 +14,12 @@ export class Election {
   updatedAt: Date;
 
   get isActive(): boolean {
-    const now = new Date();
+    const now = nowUTC();
     return this.startAt <= now && now <= this.endAt;
   }
 
   get canStand(): boolean {
-    const now = new Date();
+    const now = nowUTC();
     return this.startAt <= now && now <= this.standDeadline;
   }
 

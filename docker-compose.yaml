@@ -6,6 +6,7 @@ services:
       POSTGRES_USER: vote_system_user
       POSTGRES_PASSWORD: securepassword
       POSTGRES_DB: vote_system_db
+      TZ: "Asia/Tokyo"
     ports:
       - "5432:5432"
     volumes:

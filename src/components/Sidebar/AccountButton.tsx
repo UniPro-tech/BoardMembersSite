@@ -78,9 +78,9 @@ export default function AccountMenu() {
           action={async () => {
             if (session) {
               await signOut();
-              redirect("/sign-in");
+              redirect("/signin");
             } else {
-              redirect("/sign-in");
+              redirect("/signin");
             }
           }}
         >
