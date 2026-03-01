@@ -44,7 +44,7 @@ export default async function ElectionCard({
       />,
     );
   }
-  if (!election.canStand && new Date() < election.endAt) {
+  if (!election.canStand && election.isActive) {
     tags.push(
       <Chip key="can-stand" label="投票受付中" color="warning" size="small" />,
     );
@@ -126,7 +126,7 @@ export default async function ElectionCard({
             立候補する
           </Button>
         )}
-        {!election.canStand && new Date() < election.endAt && (
+        {!election.canStand && election.isActive && (
           <Button
             size="small"
             color="secondary"
