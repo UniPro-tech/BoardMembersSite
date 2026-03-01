@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import { headers } from "next/headers";
 import { unauthorized } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import type { Election } from "@/classes/Election";
 import { auth } from "@/libs/auth";
 
@@ -55,7 +57,7 @@ export default async function ElectionCard({
   return (
     <Card>
       <CardContent>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" className="markdown">
           {election.title}
         </Typography>
         <Stack direction="row" spacing={2} className="my-2">
@@ -73,13 +75,23 @@ export default async function ElectionCard({
           </Typography>
         </Stack>
         <Typography variant="body1">
-          {election.description
-            ? isSimple
-              ? election.description.length > 20
-                ? `${election.description.substring(0, 20)}...`
-                : election.description
-              : election.description
-            : "説明なし"}
+          {election.description ? (
+            isSimple ? (
+              election.description.length > 20 ? (
+                `${election.description.substring(0, 20)}...`
+              ) : (
+                election.description
+              )
+            ) : (
+              <div className="markdown">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {election.description}
+                </ReactMarkdown>
+              </div>
+            )
+          ) : (
+            "説明なし"
+          )}
         </Typography>
       </CardContent>
       <CardActions>
