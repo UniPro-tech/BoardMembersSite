@@ -26,7 +26,3 @@ spec:
               port: 3000
       imagePullSecrets:
         - name: internal-harbor
-      volumes:
-        - name: app-image-storage
-          persistentVolumeClaim:
-            claimName: app-image-pvc
