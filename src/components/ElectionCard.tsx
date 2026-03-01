@@ -78,8 +78,8 @@ export default async function ElectionCard({
         <Typography variant="body1">
           {election.description ? (
             isSimple ? (
-              election.description.length > 20 ? (
-                `${election.description.substring(0, 20)}...`
+              election.description.length > 60 ? (
+                `${election.description.substring(0, 60)}...`
               ) : (
                 election.description
               )
