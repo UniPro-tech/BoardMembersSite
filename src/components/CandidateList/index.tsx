@@ -50,6 +50,8 @@ export default async function CandidateList({
           data={data}
           existingVote={existingVote}
           canVote={election.isActive && !election.canStand}
+          userId={session.user.id}
+          canStand={election.canStand}
         />
       </CardContent>
     </Card>

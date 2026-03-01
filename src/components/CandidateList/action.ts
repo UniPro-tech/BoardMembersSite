@@ -40,3 +40,18 @@ export const toggleVote = async (candidateId: string) => {
   await Vote.create(session.user.id, candidateId, election.id);
   return { message: "投票しました。" };
 };
+
+export const deleteCandidateAction = async (candidateId: string) => {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) {
+    unauthorized();
+  }
+  const candidate = await Candidate.findById(candidateId);
+  if (!candidate) {
+    throw new Error("Candidate not found");
+  }
+  if (candidate.userId !== session.user.id || session.user.role !== "admin") {
+    throw new Error("この候補者を削除する権限がありません。");
+  }
+  await candidate.delete();
+};

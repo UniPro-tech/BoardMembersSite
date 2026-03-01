@@ -15,12 +15,14 @@ import type { CandidateJSON } from "@/classes/Candidate";
 import type { VoteJSON } from "@/classes/Vote";
 import { nowUTC } from "@/libs/date";
 import type { Account, User } from "../../generated/prisma/client";
-import { toggleVote } from "./action";
+import { deleteCandidateAction, toggleVote } from "./action";
 
 export default function Client({
   data,
   existingVote,
   canVote,
+  userId,
+  canStand,
 }: {
   data: {
     candidate: CandidateJSON;
@@ -29,6 +31,8 @@ export default function Client({
   }[];
   existingVote: VoteJSON | null;
   canVote: boolean;
+  userId: string;
+  canStand: boolean;
 }) {
   const onVote = async (candidateId: string) => {
     try {
@@ -47,6 +51,15 @@ export default function Client({
       setExistingVote(updatedVote);
     } catch {
       enqueueSnackbar("投票に失敗しました。", { variant: "error" });
+    }
+  };
+  const onDelete = async (candidateId: string) => {
+    try {
+      await deleteCandidateAction(candidateId);
+      enqueueSnackbar("取り下げました。", { variant: "success" });
+      window.location.reload();
+    } catch {
+      enqueueSnackbar("削除に失敗しました。", { variant: "error" });
     }
   };
   const [existingVoteState, setExistingVote] = useState(existingVote);
@@ -76,6 +89,15 @@ export default function Client({
                   >
                     詳細
                   </Button>
+                  {canStand && item.candidate.userId === userId && (
+                    <Button
+                      variant="outlined"
+                      color={"error"}
+                      onClick={() => onDelete(item.candidate.id)}
+                    >
+                      取り下げ
+                    </Button>
+                  )}
                   <Button
                     variant="outlined"
                     color={
