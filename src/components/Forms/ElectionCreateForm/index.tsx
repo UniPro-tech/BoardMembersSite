@@ -9,7 +9,7 @@ export default function ElectionCreateForm() {
         label="選挙説明"
         name="description"
         multiline
-        rows={4}
+        rows={8}
         fullWidth
       />
       <TextField

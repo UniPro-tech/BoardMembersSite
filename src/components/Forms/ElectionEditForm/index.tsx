@@ -18,7 +18,7 @@ export default function ElectionEditForm({ election }: { election: Election }) {
         label="選挙説明"
         name="description"
         multiline
-        rows={4}
+        rows={8}
         fullWidth
         defaultValue={election.description}
       />
