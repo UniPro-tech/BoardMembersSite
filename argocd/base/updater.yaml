@@ -6,7 +6,7 @@ metadata:
 spec:
   namespace: argocd
   applicationRefs:
-    - namePattern: "boardmembers"
+    - namePattern: "boardmembers-site"
       images:
         - alias: "boardmembers"
           imageName: "registry.uniproject.jp/infra/boardmembers:x.x.x"
