@@ -4,6 +4,8 @@ import { forbidden, unauthorized } from "next/navigation";
 import ElectionCreateForm from "@/components/Forms/ElectionCreateForm";
 import { auth } from "@/libs/auth";
 
+export const dynamic = "force-dynamic";
+
 export default async function VotePage() {
   const sesssion = await auth.api.getSession({ headers: await headers() });
   if (!sesssion) {

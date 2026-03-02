@@ -1,5 +1,20 @@
 name: vote-system
 services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: "postgres://vote_system_user:securepassword@postgres:5432/vote_system_db"
+      BETTER_AUTH_SECRET: a22932f9d66cc0630a2c6071f87fcd56a30c15c46b04728b81c1190bd6ce0609
+      BETTER_AUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_BETTER_AUTH_URL: http://localhost:3000
+      UNIQUE_CLIENT_ID: "01KJKJMMMS4VFAQSF4S1GT3VB1"
+      UNIQUE_CLIENT_SECRET: "squivOagdAlrjjXe5NadfuTcVNI1WMyF3AX9uxwBv4UjSjhzRXF5TobpuwCgD4GD"
+    networks:
+      - vote-system-network
   postgres:
     image: postgres:18
     environment:
@@ -11,12 +26,16 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql
+    networks:
+      - vote-system-network
   adminer:
     image: adminer
     ports:
       - 8080:8080
     depends_on:
       - postgres
+    networks:
+      - vote-system-network
 volumes:
   db_data:
 

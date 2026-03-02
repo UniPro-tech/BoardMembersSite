@@ -5,6 +5,8 @@ import { Election } from "@/classes/Election";
 import ElectionEditForm from "@/components/Forms/ElectionEditForm";
 import { auth } from "@/libs/auth";
 
+export const dynamic = "force-dynamic";
+
 export default async function ElectionEditPage({
   params,
 }: {

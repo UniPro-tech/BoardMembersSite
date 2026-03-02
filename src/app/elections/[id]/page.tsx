@@ -4,6 +4,8 @@ import { Election } from "@/classes/Election";
 import CandidateList from "@/components/CandidateList";
 import ElectctionCard from "@/components/ElectionCard";
 
+export const dynamic = "force-dynamic";
+
 export default async function ElectionDetailPage({
   params,
 }: {

@@ -18,6 +18,8 @@ import CandidateEditForm from "@/components/Forms/CandidateEditForm";
 import { auth } from "@/libs/auth";
 import { formatToLocaleStringJST } from "@/libs/date";
 
+export const dynamic = "force-dynamic";
+
 export default async function ElectionEditPage({
   params,
 }: {

@@ -15,6 +15,8 @@ import { Election } from "@/classes/Election";
 import StandForm from "@/components/Forms/StandForm";
 import { formatToLocaleStringJST } from "@/libs/date";
 
+export const dynamic = "force-dynamic";
+
 export default async function StandingPage({
   params,
 }: {
