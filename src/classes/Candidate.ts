@@ -76,6 +76,9 @@ export class Candidate {
       where: {
         electionId,
       },
+      orderBy: {
+        createdAt: "asc",
+      },
     });
 
     return candidates.map(Candidate.fromPrisma);
