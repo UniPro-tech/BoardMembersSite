@@ -32,6 +32,9 @@ COPY --from=dependencies /app/node_modules ./node_modules
 # Copy application source code
 COPY . .
 
+# Generate Prisma client
+RUN bun x prisma generate
+
 ENV NODE_ENV=production
 
 # Next.js collects completely anonymous telemetry data about general usage.
@@ -73,6 +76,9 @@ RUN chown bun:bun .next
 COPY --from=builder --chown=bun:bun /app/.next/standalone ./
 COPY --from=builder --chown=bun:bun /app/.next/static ./.next/static
 
+# Copy the Prisma schema to migrate
+COPY --from=builder --chown=bun:bun /app/prisma ./prisma
+
 # If you want to persist the fetch cache generated during the build so that
 # cached responses are available immediately on startup, uncomment this line:
 # COPY --from=builder --chown=bun:bun /app/.next/cache ./.next/cache
@@ -84,4 +90,4 @@ USER bun
 EXPOSE 3000
 
 # Start Next.js standalone server with Bun
-CMD ["bun", "server.js"]
+CMD ["sh", "-c", "bun x prisma migrate deploy && bun server.js"]
