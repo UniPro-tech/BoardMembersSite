@@ -32,6 +32,8 @@ COPY --from=dependencies /app/node_modules ./node_modules
 # Copy application source code
 COPY . .
 
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
+
 # Generate Prisma client
 RUN bun x prisma generate
 
@@ -76,12 +78,15 @@ RUN chown bun:bun .next
 COPY --from=builder --chown=bun:bun /app/.next/standalone ./
 COPY --from=builder --chown=bun:bun /app/.next/static ./.next/static
 
-# Copy the Prisma schema to migrate
-COPY --from=builder --chown=bun:bun /app/prisma ./prisma
-
 # If you want to persist the fetch cache generated during the build so that
 # cached responses are available immediately on startup, uncomment this line:
 # COPY --from=builder --chown=bun:bun /app/.next/cache ./.next/cache
+
+# Copy the Prisma schema to migrate
+COPY --from=builder --chown=bun:bun /app/prisma ./prisma
+COPY --from=builder --chown=bun:bun /app/prisma.config.ts ./prisma.config.ts
+RUN bun add prisma
+RUN chmod -R 777 /app/node_modules
 
 # Switch to non-root user for security best practices
 USER bun
