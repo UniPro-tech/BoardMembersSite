@@ -31,11 +31,16 @@ export default async function CandidateList({
       providerId: "unique",
     },
   });
-  const data = candidates.map((candidate) => ({
-    candidate: candidate.toJSON(),
-    user: filteredUsers.find((user) => user.id === candidate.userId),
-    account: accounts.find((account) => account.userId === candidate.userId),
-  }));
+  const data = await Promise.all(
+    candidates.map(async (candidate) => ({
+      candidate: {
+        ...candidate.toJSON(),
+        voteCount: await Vote.countVotesByCandidateId(candidate.id),
+      },
+      user: filteredUsers.find((user) => user.id === candidate.userId),
+      account: accounts.find((account) => account.userId === candidate.userId),
+    })),
+  );
   const existingVote =
     (
       await Vote.findByUserIdAndElectionId(session.user.id, election.id)

@@ -25,7 +25,7 @@ export default function Client({
   canStand,
 }: {
   data: {
-    candidate: CandidateJSON;
+    candidate: CandidateJSON & { voteCount: number };
     user: User | undefined;
     account: Account | undefined;
   }[];
@@ -79,6 +79,9 @@ export default function Client({
                       {item.candidate.description}
                     </Typography>
                   )}
+                  <Typography variant="caption">
+                    {item.candidate.voteCount}票
+                  </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
