@@ -35,7 +35,7 @@ export default async function ElectionEditPage({
   if (!election) {
     notFound();
   }
-  if (!election.canStand) {
+  if (!election.canStand && user.role !== "admin") {
     return (
       <Container maxWidth="sm">
         <Box
@@ -127,6 +127,7 @@ export default async function ElectionEditPage({
       <CandidateEditForm
         electionId={election.id}
         candidate={candidate.toJSON()}
+        isAdmin={user.role === "admin"}
       />
     </Stack>
   );
