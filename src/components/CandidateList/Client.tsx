@@ -102,7 +102,7 @@ export default function Client({
                         取り下げ
                       </Button>
                       <Button
-                        href={`/elections/${item.candidate.electionId}/candidate/${item.candidate.id}/edit`}
+                        href={`/elections/${item.candidate.electionId}/candidates/${item.candidate.id}/edit`}
                         variant="outlined"
                         color={"primary"}
                       >
