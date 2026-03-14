@@ -10,6 +10,7 @@ export class Candidate {
   userId: string;
   electionId: string;
   description?: string;
+  isIneligible: boolean;
   createdAt: Date;
   updatedAt: Date;
 
@@ -18,6 +19,7 @@ export class Candidate {
     userId: string,
     electionId: string,
     description: string | undefined,
+    isIneligible: boolean,
     createdAt: Date,
     updatedAt: Date,
   ) {
@@ -25,6 +27,7 @@ export class Candidate {
     this.userId = userId;
     this.electionId = electionId;
     this.description = description;
+    this.isIneligible = isIneligible;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -35,6 +38,7 @@ export class Candidate {
       prismaCandidate.userId,
       prismaCandidate.electionId,
       prismaCandidate.description ? prismaCandidate.description : undefined,
+      prismaCandidate.isIneligible,
       prismaCandidate.createdAt,
       prismaCandidate.updatedAt,
     );
@@ -138,6 +142,7 @@ export class Candidate {
       userId: this.userId,
       electionId: this.electionId,
       description: this.description,
+      isIneligible: this.isIneligible,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
@@ -149,6 +154,7 @@ export interface CandidateJSON {
   userId: string;
   electionId: string;
   description?: string;
+  isIneligible: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

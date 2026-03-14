@@ -23,6 +23,7 @@ export default function Client({
   canVote,
   userId,
   canStand,
+  isAdmin = false,
 }: {
   data: {
     candidate: CandidateJSON & { voteCount: number };
@@ -33,6 +34,7 @@ export default function Client({
   canVote: boolean;
   userId: string;
   canStand: boolean;
+  isAdmin?: boolean;
 }) {
   const onVote = async (candidateId: string) => {
     try {
@@ -93,22 +95,25 @@ export default function Client({
                     詳細
                   </Button>
                   {canStand && item.candidate.userId === userId && (
-                    <>
-                      <Button
-                        variant="outlined"
-                        color={"error"}
-                        onClick={() => onDelete(item.candidate.id)}
-                      >
-                        取り下げ
-                      </Button>
-                      <Button
-                        href={`/elections/${item.candidate.electionId}/candidates/${item.candidate.id}/edit`}
-                        variant="outlined"
-                        color={"primary"}
-                      >
-                        編集
-                      </Button>
-                    </>
+                    <Button
+                      variant="outlined"
+                      color={"error"}
+                      onClick={() => onDelete(item.candidate.id)}
+                    >
+                      取り下げ
+                    </Button>
+                  )}
+                  {(isAdmin ||
+                    (canStand &&
+                      item.candidate.userId === userId &&
+                      !item.candidate.isIneligible)) && (
+                    <Button
+                      href={`/elections/${item.candidate.electionId}/candidates/${item.candidate.id}/edit`}
+                      variant="outlined"
+                      color={"primary"}
+                    >
+                      編集
+                    </Button>
                   )}
                   <Button
                     variant="outlined"
@@ -123,14 +128,16 @@ export default function Client({
                     disabled={
                       existingVoteState
                         ? existingVoteState.candidateId !== item.candidate.id
-                        : !canVote
+                        : !canVote || item.candidate.isIneligible
                     }
                   >
                     {canVote
-                      ? existingVoteState
+                      ? existingVoteState && !item.candidate.isIneligible
                         ? existingVoteState.candidateId === item.candidate.id
                           ? "投票を取り消す"
-                          : "投票済み"
+                          : !item.candidate.isIneligible
+                            ? "投票済み"
+                            : "投票不可"
                         : "投票する"
                       : "投票不可"}
                   </Button>

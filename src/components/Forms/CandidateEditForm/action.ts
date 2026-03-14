@@ -41,3 +41,39 @@ export const editCandidateAction = async (formData: FormData) => {
 
   redirect(`/elections/${election.id}?editSuccess=true`);
 };
+
+export const makeIneligible = async (formData: FormData) => {
+  const electionId = formData.get("electionId") as string;
+  const candidateId = formData.get("candidateId") as string;
+
+  if (!electionId) {
+    throw new Error("選挙IDが必要です");
+  }
+
+  const election = await Election.findById(electionId);
+  if (!election) {
+    throw new Error("選挙が見つかりません");
+  }
+
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) {
+    unauthorized();
+  }
+
+  const candidate = await Candidate.findById(candidateId);
+  if (!candidate) {
+    throw new Error("候補者が見つかりません");
+  }
+  if (candidate.electionId !== election.id) {
+    throw new Error("この候補者はこの選挙に属していません");
+  }
+
+  if (candidate.isIneligible) {
+    candidate.isIneligible = false;
+  } else {
+    candidate.isIneligible = true;
+  }
+  await candidate.save();
+
+  redirect(`/elections/${election.id}?editSuccess=true`);
+};

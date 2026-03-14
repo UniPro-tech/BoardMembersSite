@@ -57,6 +57,7 @@ export default async function CandidateList({
           canVote={election.isActive && !election.canStand}
           userId={session.user.id}
           canStand={election.canStand}
+          isAdmin={session.user.role === "admin"}
         />
       </CardContent>
     </Card>

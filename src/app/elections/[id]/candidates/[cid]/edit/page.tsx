@@ -124,7 +124,10 @@ export default async function ElectionEditPage({
       <Typography variant="h4" component="h1" gutterBottom>
         立候補情報を編集する
       </Typography>
-      <CandidateEditForm electionId={election.id} candidateId={candidate.id} />
+      <CandidateEditForm
+        electionId={election.id}
+        candidate={candidate.toJSON()}
+      />
     </Stack>
   );
 }
