@@ -116,7 +116,7 @@ export default async function ElectionEditPage({
   if (!candidate || candidate.electionId !== election.id) {
     notFound();
   }
-  if (candidate.userId !== user.id) {
+  if (candidate.userId !== user.id && user.role !== "admin") {
     forbidden();
   }
   return (
