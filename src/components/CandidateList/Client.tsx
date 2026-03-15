@@ -132,13 +132,15 @@ export default function Client({
                     }
                   >
                     {canVote
-                      ? existingVoteState && !item.candidate.isIneligible
+                      ? existingVoteState
                         ? existingVoteState.candidateId === item.candidate.id
                           ? "投票を取り消す"
                           : !item.candidate.isIneligible
                             ? "投票済み"
                             : "投票不可"
-                        : "投票する"
+                        : !item.candidate.isIneligible
+                          ? "投票する"
+                          : "失格処分"
                       : "投票不可"}
                   </Button>
                 </CardActions>
