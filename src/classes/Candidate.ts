@@ -101,6 +101,7 @@ export class Candidate {
   static async updateById(
     candidateId: string,
     description: string | undefined,
+    isIneligible: boolean | undefined,
   ): Promise<Candidate> {
     const updatedCandidate = await prisma.candidate.update({
       where: {
@@ -108,6 +109,7 @@ export class Candidate {
       },
       data: {
         description,
+        isIneligible,
       },
     });
 
@@ -119,6 +121,7 @@ export class Candidate {
       where: { id: this.id },
       data: {
         description: this.description,
+        isIneligible: this.isIneligible,
       },
     });
   }
