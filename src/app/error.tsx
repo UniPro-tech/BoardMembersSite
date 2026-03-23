@@ -1,3 +1,5 @@
+"use client";
+
 import ErrorIcon from "@mui/icons-material/Error";
 import HomeIcon from "@mui/icons-material/Home";
 import {
