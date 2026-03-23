@@ -96,15 +96,7 @@ export default async function ElectionCard({
           )}
         </Stack>
         {parentElection && (
-          <Alert
-            severity="info"
-            sx={{
-              mb: 2,
-              flexDirection: "column",
-              display: "flex",
-              alignItems: "flex-start",
-            }}
-          >
+          <Alert severity="info">
             この選挙は「{parentElection.title}」の決選投票です。
             <Button
               size="small"
