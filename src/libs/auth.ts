@@ -3,6 +3,10 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, genericOAuth } from "better-auth/plugins";
 import prisma from "@/libs/prisma";
 
+if (!process.env.UNIQUE_CLIENT_ID || !process.env.UNIQUE_CLIENT_SECRET) {
+  throw new Error("UNIQUE_CLIENT_ID and UNIQUE_CLIENT_SECRET must be defined");
+}
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
@@ -15,8 +19,8 @@ export const auth = betterAuth({
       config: [
         {
           providerId: "unique",
-          clientId: process.env.UNIQUE_CLIENT_ID!,
-          clientSecret: process.env.UNIQUE_CLIENT_SECRET!,
+          clientId: process.env.UNIQUE_CLIENT_ID,
+          clientSecret: process.env.UNIQUE_CLIENT_SECRET,
           scopes: ["openid", "profile", "email"],
           discoveryUrl:
             "https://auth.uniproject.jp/.well-known/openid-configuration",

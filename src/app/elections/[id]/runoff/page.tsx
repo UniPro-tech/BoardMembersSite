@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import { headers } from "next/headers";
-import { forbidden, unauthorized } from "next/navigation";
+import { forbidden, notFound, unauthorized } from "next/navigation";
+import { GenerateErrorPage } from "@/app/error";
 import { Election } from "@/classes/Election";
 import ElectionCreateForm from "@/components/Forms/ElectionCreateForm";
 import { auth } from "@/libs/auth";
@@ -22,13 +23,19 @@ export default async function VotePage({
   const { id } = await params;
   const parentElection = await Election.findById(id);
   if (!parentElection) {
-    throw new Error("親選挙が見つかりません");
+    notFound();
   }
   if (!parentElection.needRunoffElection()) {
-    throw new Error("この選挙ではリタイア投票は不要です");
+    return (
+      <GenerateErrorPage
+        error={new Error("この選挙ではリタイア投票は不要です")}
+      />
+    );
   }
   if (parentElection.endAt > new Date()) {
-    throw new Error("親選挙がまだ終了していません");
+    return (
+      <GenerateErrorPage error={new Error("この選挙はまだ終了していません")} />
+    );
   }
   const winnersCount = (await parentElection.getWinnerCandidates()).length;
   const defaultCapacity = parentElection.capacity

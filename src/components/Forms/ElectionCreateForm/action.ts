@@ -49,7 +49,8 @@ export const createElectionAction = async (formData: FormData) => {
   }
 
   const response = isRunoff
-    ? await parentElection!.createRunoffElection(
+    ? // biome-ignore lint/style/noNonNullAssertion: 親選挙の存在は上でチェックしているため、ここでは非nullアサーションを使用する
+      await parentElection!.createRunoffElection(
         title,
         description,
         capacity,
