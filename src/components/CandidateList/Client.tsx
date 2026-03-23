@@ -5,7 +5,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Divider,
   Stack,
   Typography,
 } from "@mui/material";
@@ -73,89 +72,83 @@ export default function Client({
         {data.length === 0 ? (
           <Typography variant="body1">立候補者はいません。</Typography>
         ) : (
-          data.map((item, index) => (
-            <>
-              <Card key={item.candidate.id} variant="outlined">
-                <CardContent>
-                  <Typography variant="h6">{item.user?.name}</Typography>
-                  {item.candidate.description && (
-                    <Typography variant="body2">
-                      {item.candidate.description}
-                    </Typography>
-                  )}
-                  <Typography variant="caption">
-                    {item.candidate.voteCount}票
+          data.map((item) => (
+            <Card key={item.candidate.id} variant="outlined">
+              <CardContent>
+                <Typography variant="h6">{item.user?.name}</Typography>
+                {item.candidate.description && (
+                  <Typography variant="body2">
+                    {item.candidate.description}
                   </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="outlined"
-                    color={"primary"}
-                    href={`https://unique.uniproject.jp/dashboard/members/${item.account?.accountId}`}
-                    target="_blank"
-                  >
-                    詳細
-                  </Button>
-                  {!isWinner && (
-                    <>
-                      {canStand && item.candidate.userId === userId && (
-                        <Button
-                          variant="outlined"
-                          color={"error"}
-                          onClick={() => onDelete(item.candidate.id)}
-                        >
-                          取り下げ
-                        </Button>
-                      )}
-                      {(isAdmin ||
-                        (canStand &&
-                          item.candidate.userId === userId &&
-                          !item.candidate.isIneligible)) && (
-                        <Button
-                          href={`/elections/${item.candidate.electionId}/candidates/${item.candidate.id}/edit`}
-                          variant="outlined"
-                          color={"primary"}
-                        >
-                          編集
-                        </Button>
-                      )}
+                )}
+                <Typography variant="caption">
+                  {item.candidate.voteCount}票
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  variant="outlined"
+                  color={"primary"}
+                  href={`https://unique.uniproject.jp/dashboard/members/${item.account?.accountId}`}
+                  target="_blank"
+                >
+                  詳細
+                </Button>
+                {!isWinner && (
+                  <>
+                    {canStand && item.candidate.userId === userId && (
                       <Button
                         variant="outlined"
-                        color={
-                          existingVoteState
-                            ? existingVoteState.candidateId ===
-                              item.candidate.id
-                              ? "error"
-                              : "secondary"
-                            : "secondary"
-                        }
-                        onClick={() => onVote(item.candidate.id)}
-                        disabled={
-                          existingVoteState
-                            ? existingVoteState.candidateId !==
-                              item.candidate.id
-                            : !canVote || item.candidate.isIneligible
-                        }
+                        color={"error"}
+                        onClick={() => onDelete(item.candidate.id)}
                       >
-                        {canVote
-                          ? existingVoteState
-                            ? existingVoteState.candidateId ===
-                              item.candidate.id
-                              ? "投票を取り消す"
-                              : !item.candidate.isIneligible
-                                ? "投票済み"
-                                : "投票不可"
-                            : !item.candidate.isIneligible
-                              ? "投票する"
-                              : "失格処分"
-                          : "投票不可"}
+                        取り下げ
                       </Button>
-                    </>
-                  )}
-                </CardActions>
-              </Card>
-              {index < data.length - 1 && <Divider />}
-            </>
+                    )}
+                    {(isAdmin ||
+                      (canStand &&
+                        item.candidate.userId === userId &&
+                        !item.candidate.isIneligible)) && (
+                      <Button
+                        href={`/elections/${item.candidate.electionId}/candidates/${item.candidate.id}/edit`}
+                        variant="outlined"
+                        color={"primary"}
+                      >
+                        編集
+                      </Button>
+                    )}
+                    <Button
+                      variant="outlined"
+                      color={
+                        existingVoteState
+                          ? existingVoteState.candidateId === item.candidate.id
+                            ? "error"
+                            : "secondary"
+                          : "secondary"
+                      }
+                      onClick={() => onVote(item.candidate.id)}
+                      disabled={
+                        existingVoteState
+                          ? existingVoteState.candidateId !== item.candidate.id
+                          : !canVote || item.candidate.isIneligible
+                      }
+                    >
+                      {canVote
+                        ? existingVoteState
+                          ? existingVoteState.candidateId === item.candidate.id
+                            ? "投票を取り消す"
+                            : !item.candidate.isIneligible
+                              ? "投票済み"
+                              : "投票不可"
+                          : !item.candidate.isIneligible
+                            ? "投票する"
+                            : "失格処分"
+                        : "投票不可"}
+                    </Button>
+                  </>
+                )}
+              </CardActions>
+            </Card>
           ))
         )}
       </Stack>

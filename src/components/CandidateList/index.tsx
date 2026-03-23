@@ -77,7 +77,12 @@ export default async function CandidateList({
             <Alert severity="warning" className="mb-4">
               この選挙は終了しています。投票はできません。
             </Alert>
-            <Typography variant="h6" component="h3" className="font-bold mb-2">
+            <Typography
+              variant="h6"
+              component="h3"
+              className="font-bold"
+              color={"primary"}
+            >
               当選者(確実者)
             </Typography>
             {winner.length > 0 ? (
