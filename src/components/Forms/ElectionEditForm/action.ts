@@ -57,3 +57,20 @@ export const updateElectionAction = async (formData: FormData) => {
 
   redirect(`/elections/${response.id}`);
 };
+
+export const deleteElectionAction = async (formData: FormData) => {
+  const id = formData.get("electionId") as string;
+
+  if (!id) {
+    throw new Error("選挙IDが不足しています");
+  }
+
+  const election = await Election.findById(id);
+  if (!election) {
+    throw new Error("選挙が見つかりません");
+  }
+
+  await election.delete();
+
+  redirect("/elections");
+};
