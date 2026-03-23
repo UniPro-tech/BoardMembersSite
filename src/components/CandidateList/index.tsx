@@ -77,6 +77,37 @@ export default async function CandidateList({
             <Alert severity="warning" className="mb-4">
               この選挙は終了しています。投票はできません。
             </Alert>
+            {isEnded &&
+              session.user.role === "admin" &&
+              (await election.needRunoffElection()) &&
+              !runoffElection && (
+                <>
+                  <Alert severity="info" className="mb-4">
+                    この選挙は定員を超える候補者がいるため、決選投票が必要です。
+                  </Alert>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    href={`/elections/${election.id}/runoff`}
+                  >
+                    決選投票を作成
+                  </Button>
+                </>
+              )}
+            {isEnded && runoffElection && (
+              <>
+                <Alert severity="info" className="mb-4">
+                  決選投票が作成されています。
+                </Alert>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  href={`/elections/${runoffElection.id}`}
+                >
+                  決選投票を見る
+                </Button>
+              </>
+            )}
             <Typography
               variant="h6"
               component="h3"
@@ -94,36 +125,6 @@ export default async function CandidateList({
             ) : (
               <Typography variant="body1">当選者はいません。</Typography>
             )}
-          </>
-        )}
-        {isEnded &&
-          session.user.role === "admin" &&
-          (await election.needRunoffElection()) && (
-            <>
-              <Alert severity="info" className="mb-4">
-                この選挙は定員を超える候補者がいるため、決選投票が必要です。
-              </Alert>
-              <Button
-                variant="contained"
-                color="primary"
-                href={`/elections/${election.id}/runoff`}
-              >
-                決選投票を作成
-              </Button>
-            </>
-          )}
-        {isEnded && runoffElection && (
-          <>
-            <Alert severity="info" className="mb-4">
-              決選投票が作成されています。
-            </Alert>
-            <Button
-              variant="contained"
-              color="primary"
-              href={`/elections/${runoffElection.id}`}
-            >
-              決選投票を見る
-            </Button>
           </>
         )}
         <Typography variant="h5" component="h2" className="font-bold">

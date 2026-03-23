@@ -64,7 +64,11 @@ export default async function ElectionCard({
         <Stack direction="row" spacing={2} className="my-2">
           {tags}
         </Stack>
-        <Stack direction="row" spacing={1} className="mb-2">
+        <Stack
+          direction={{ xs: "column", lg: "row" }}
+          spacing={1}
+          className="mb-2"
+        >
           <Typography variant="body2" color="textSecondary">
             開始日時: {formatToLocaleStringJST(election.startAt)}
           </Typography>
