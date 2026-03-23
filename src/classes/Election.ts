@@ -233,6 +233,11 @@ export class Election {
     standDeadline: Date | null,
     endAt: Date,
   ): Promise<Election> {
+    if (this.capacity === undefined) {
+      throw new Error(
+        "定員が設定されていない選挙にはランオフ選挙を作成できません",
+      );
+    }
     const runoffElection = await Election.create(
       title,
       description,
@@ -243,23 +248,20 @@ export class Election {
       standDeadline,
       endAt,
     );
-    const winnerCandidates = await this.getWinnerCandidates();
-    // タイブレークの候補者を取得する
-    // 定員の人数だけ得票数の多い候補者を取得し、その最後の候補者と同数の票を得ている候補者を全て取得する
-    const allCandidates = await this.getCandidates();
-    const candidatesWithVotes = await Promise.all(
-      allCandidates.map(async (candidate) => ({
-        candidate,
-        votes: await candidate.getVotesCount(),
-      })),
+    const candidates = await this.getCandidates();
+    // Fetch all votes counts in parallel
+    const votesCounts = await Promise.all(
+      candidates.map((c) => c.getVotesCount()),
     );
+    // Pair candidates with their votes count
+    const candidatesWithVotes = candidates.map((candidate, idx) => ({
+      candidate,
+      votes: votesCounts[idx],
+    }));
     candidatesWithVotes.sort((a, b) => b.votes - a.votes);
-    const cutoffVotes =
-      candidatesWithVotes[
-        Math.min(winnerCandidates.length, candidatesWithVotes.length) - 1
-      ]?.votes ?? 0;
+    const lastWinnerVotes = candidatesWithVotes[this.capacity - 1].votes;
     const runoffCandidates = candidatesWithVotes
-      .filter((item) => item.votes === cutoffVotes)
+      .filter((item) => item.votes === lastWinnerVotes)
       .map((item) => item.candidate);
 
     // タイブレークの候補者をランオフ選挙に追加する
