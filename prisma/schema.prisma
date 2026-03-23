@@ -90,7 +90,7 @@ model Election {
   name             String
   description      String?
   startDate        DateTime
-  standDeadline    DateTime
+  standDeadline    DateTime?
   endDate          DateTime
   capacity         Int?
   createdAt        DateTime    @default(now())
