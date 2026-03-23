@@ -30,6 +30,10 @@ export default async function VotePage({
   if (parentElection.endAt > new Date()) {
     throw new Error("親選挙がまだ終了していません");
   }
+  const winnersCount = (await parentElection.getWinnerCandidates()).length;
+  const defaultCapacity = parentElection.capacity
+    ? parentElection.capacity - winnersCount
+    : undefined;
   return (
     <Stack>
       <Typography variant="h4" component="h1" className="font-bold">
@@ -38,7 +42,11 @@ export default async function VotePage({
       <Typography variant="body1" className="text-gray-600">
         新しい選挙を作成します。作成後、候補者を追加できます。
       </Typography>
-      <ElectionCreateForm isRunoff parentElection={parentElection} />
+      <ElectionCreateForm
+        isRunoff
+        parentElection={parentElection}
+        defaultCapacity={defaultCapacity}
+      />
     </Stack>
   );
 }

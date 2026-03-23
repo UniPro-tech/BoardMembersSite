@@ -61,7 +61,6 @@ export default function ElectionCreateForm({
         label="立候補締切日時"
         name="standDeadline"
         type="datetime-local"
-        required
         fullWidth
       />
       <TextField
