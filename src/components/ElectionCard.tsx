@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Card,
   CardActions,
@@ -55,6 +56,14 @@ export default async function ElectionCard({
   if (!election.isActive && new Date() > election.endAt) {
     tags.push(<Chip key="ended" label="終了" color="default" size="small" />);
   }
+  if (election.isRunoff) {
+    tags.push(
+      <Chip key="runoff" label="決選投票" color="secondary" size="small" />,
+    );
+  }
+  const parentElection = election.isRunoff
+    ? await election.getParentElection()
+    : null;
   return (
     <Card>
       <CardContent>
@@ -86,6 +95,27 @@ export default async function ElectionCard({
             </Typography>
           )}
         </Stack>
+        {parentElection && (
+          <Alert
+            severity="info"
+            sx={{
+              mb: 2,
+              flexDirection: "column",
+              display: "flex",
+              alignItems: "flex-start",
+            }}
+          >
+            この選挙は「{parentElection.title}」の決選投票です。
+            <Button
+              size="small"
+              color="primary"
+              href={`/elections/${parentElection.id}`}
+              variant="text"
+            >
+              親選挙を見る
+            </Button>
+          </Alert>
+        )}
         <Typography variant="body1">
           {election.description ? (
             isSimple ? (

@@ -297,4 +297,14 @@ export class Election {
       candidatesWithVotes[this.capacity - 1]?.votes ?? Number.MAX_SAFE_INTEGER;
     return candidatesWithVotes.some((item) => item.votes === cutoffVotes);
   }
+
+  async getParentElection(): Promise<Election | null> {
+    if (!this.parentElectionId) {
+      return null;
+    }
+    const parentElection = await prisma.election.findUnique({
+      where: { id: this.parentElectionId },
+    });
+    return parentElection ? Election.fromPrisma(parentElection) : null;
+  }
 }
