@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Alert, Button, Card, CardContent, Typography } from "@mui/material";
 import { headers } from "next/headers";
 import { unauthorized } from "next/navigation";
 import type { Candidate } from "@/classes/Candidate";
@@ -45,9 +45,82 @@ export default async function CandidateList({
     (
       await Vote.findByUserIdAndElectionId(session.user.id, election.id)
     )?.toJSON() || null;
+  const isEnded = election.endAt < new Date();
+  const winner = await election.getWinnerCandidates();
+  const winnerData = await Promise.all(
+    winner.map(async (candidate) => {
+      const user = await candidate.getUser();
+      const account = user
+        ? await prisma.account.findFirst({
+            where: {
+              userId: user.id,
+              providerId: "unique",
+            },
+          })
+        : null;
+      return {
+        candidate: {
+          ...candidate.toJSON(),
+          voteCount: await Vote.countVotesByCandidateId(candidate.id),
+        },
+        user: user || undefined,
+        account: account || undefined,
+      };
+    }),
+  );
+  const runoffElection = isEnded && (await election.getRunoffElection());
   return (
     <Card id="candidate-list">
       <CardContent>
+        {isEnded && (
+          <>
+            <Alert severity="warning" className="mb-4">
+              この選挙は終了しています。投票はできません。
+            </Alert>
+            <Typography variant="h6" component="h3" className="font-bold mb-2">
+              当選者(確実者)
+            </Typography>
+            {winner.length > 0 ? (
+              <Client
+                data={winnerData}
+                isAdmin={session.user.role === "admin"}
+                isWinner={true}
+              />
+            ) : (
+              <Typography variant="body1">当選者はいません。</Typography>
+            )}
+          </>
+        )}
+        {isEnded &&
+          session.user.role === "admin" &&
+          (await election.needRunoffElection()) && (
+            <>
+              <Alert severity="info" className="mb-4">
+                この選挙は定員を超える候補者がいるため、決選投票が必要です。
+              </Alert>
+              <Button
+                variant="contained"
+                color="primary"
+                href={`/elections/${election.id}/runoff`}
+              >
+                決選投票を作成
+              </Button>
+            </>
+          )}
+        {isEnded && runoffElection && (
+          <>
+            <Alert severity="info" className="mb-4">
+              決選投票が作成されています。
+            </Alert>
+            <Button
+              variant="contained"
+              color="primary"
+              href={`/elections/${runoffElection.id}`}
+            >
+              決選投票を見る
+            </Button>
+          </>
+        )}
         <Typography variant="h5" component="h2" className="font-bold">
           立候補者一覧
         </Typography>

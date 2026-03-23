@@ -68,12 +68,19 @@ export default async function ElectionCard({
           <Typography variant="body2" color="textSecondary">
             開始日時: {formatToLocaleStringJST(election.startAt)}
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            立候補締切: {formatToLocaleStringJST(election.standDeadline)}
-          </Typography>
+          {election.standDeadline && (
+            <Typography variant="body2" color="textSecondary">
+              立候補締切: {formatToLocaleStringJST(election.standDeadline)}
+            </Typography>
+          )}
           <Typography variant="body2" color="textSecondary">
             終了日時: {formatToLocaleStringJST(election.endAt)}
           </Typography>
+          {election.capacity && (
+            <Typography variant="body2" color="textSecondary">
+              定員: {election.capacity}人
+            </Typography>
+          )}
         </Stack>
         <Typography variant="body1">
           {election.description ? (

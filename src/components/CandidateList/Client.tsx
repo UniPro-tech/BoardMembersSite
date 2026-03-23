@@ -24,17 +24,19 @@ export default function Client({
   userId,
   canStand,
   isAdmin = false,
+  isWinner = false,
 }: {
   data: {
     candidate: CandidateJSON & { voteCount: number };
     user: User | undefined;
     account: Account | undefined;
   }[];
-  existingVote: VoteJSON | null;
-  canVote: boolean;
-  userId: string;
-  canStand: boolean;
+  existingVote?: VoteJSON | null;
+  canVote?: boolean;
+  userId?: string;
+  canStand?: boolean;
   isAdmin?: boolean;
+  isWinner?: boolean;
 }) {
   const onVote = async (candidateId: string) => {
     try {
@@ -94,55 +96,62 @@ export default function Client({
                   >
                     詳細
                   </Button>
-                  {canStand && item.candidate.userId === userId && (
-                    <Button
-                      variant="outlined"
-                      color={"error"}
-                      onClick={() => onDelete(item.candidate.id)}
-                    >
-                      取り下げ
-                    </Button>
+                  {!isWinner && (
+                    <>
+                      {canStand && item.candidate.userId === userId && (
+                        <Button
+                          variant="outlined"
+                          color={"error"}
+                          onClick={() => onDelete(item.candidate.id)}
+                        >
+                          取り下げ
+                        </Button>
+                      )}
+                      {(isAdmin ||
+                        (canStand &&
+                          item.candidate.userId === userId &&
+                          !item.candidate.isIneligible)) && (
+                        <Button
+                          href={`/elections/${item.candidate.electionId}/candidates/${item.candidate.id}/edit`}
+                          variant="outlined"
+                          color={"primary"}
+                        >
+                          編集
+                        </Button>
+                      )}
+                      <Button
+                        variant="outlined"
+                        color={
+                          existingVoteState
+                            ? existingVoteState.candidateId ===
+                              item.candidate.id
+                              ? "error"
+                              : "secondary"
+                            : "secondary"
+                        }
+                        onClick={() => onVote(item.candidate.id)}
+                        disabled={
+                          existingVoteState
+                            ? existingVoteState.candidateId !==
+                              item.candidate.id
+                            : !canVote || item.candidate.isIneligible
+                        }
+                      >
+                        {canVote
+                          ? existingVoteState
+                            ? existingVoteState.candidateId ===
+                              item.candidate.id
+                              ? "投票を取り消す"
+                              : !item.candidate.isIneligible
+                                ? "投票済み"
+                                : "投票不可"
+                            : !item.candidate.isIneligible
+                              ? "投票する"
+                              : "失格処分"
+                          : "投票不可"}
+                      </Button>
+                    </>
                   )}
-                  {(isAdmin ||
-                    (canStand &&
-                      item.candidate.userId === userId &&
-                      !item.candidate.isIneligible)) && (
-                    <Button
-                      href={`/elections/${item.candidate.electionId}/candidates/${item.candidate.id}/edit`}
-                      variant="outlined"
-                      color={"primary"}
-                    >
-                      編集
-                    </Button>
-                  )}
-                  <Button
-                    variant="outlined"
-                    color={
-                      existingVoteState
-                        ? existingVoteState.candidateId === item.candidate.id
-                          ? "error"
-                          : "secondary"
-                        : "secondary"
-                    }
-                    onClick={() => onVote(item.candidate.id)}
-                    disabled={
-                      existingVoteState
-                        ? existingVoteState.candidateId !== item.candidate.id
-                        : !canVote || item.candidate.isIneligible
-                    }
-                  >
-                    {canVote
-                      ? existingVoteState
-                        ? existingVoteState.candidateId === item.candidate.id
-                          ? "投票を取り消す"
-                          : !item.candidate.isIneligible
-                            ? "投票済み"
-                            : "投票不可"
-                        : !item.candidate.isIneligible
-                          ? "投票する"
-                          : "失格処分"
-                      : "投票不可"}
-                  </Button>
                 </CardActions>
               </Card>
               {index < data.length - 1 && <Divider />}

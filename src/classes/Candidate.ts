@@ -139,6 +139,20 @@ export class Candidate {
     return candidateWithUser ? candidateWithUser : null;
   }
 
+  async getElection(): Promise<Election | null> {
+    const election = await Election.findById(this.electionId);
+    return election ? election : null;
+  }
+
+  async getVotesCount(): Promise<number> {
+    const count = await prisma.vote.count({
+      where: {
+        candidateId: this.id,
+      },
+    });
+    return count;
+  }
+
   toJSON(): CandidateJSON {
     return {
       id: this.id,

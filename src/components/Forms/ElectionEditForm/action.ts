@@ -8,11 +8,16 @@ export const updateElectionAction = async (formData: FormData) => {
   const title = formData.get("title") as string;
   const description = formData.get("description") as string | undefined;
   const startAt = parseDatetimeLocalAsJST(formData.get("startAt") as string);
-  const standDeadline = parseDatetimeLocalAsJST(
-    formData.get("standDeadline") as string,
-  );
+  const standDeadline = formData.get("standDeadline")
+    ? parseDatetimeLocalAsJST(formData.get("standDeadline") as string)
+    : null;
   const endAt = parseDatetimeLocalAsJST(formData.get("endAt") as string);
   const id = formData.get("electionId") as string;
+  const capacity = formData.get("capacity") as string | undefined;
+  const parentElectionId = formData.get("parentElectionId") as
+    | string
+    | undefined;
+  const isRunoff = formData.get("isRunoff") === "true";
 
   if (!id) {
     throw new Error("選挙IDが不足しています");
@@ -42,6 +47,9 @@ export const updateElectionAction = async (formData: FormData) => {
     id,
     title,
     description,
+    capacity ? parseInt(capacity, 10) : undefined,
+    parentElectionId,
+    isRunoff,
     startAt,
     standDeadline,
     endAt,

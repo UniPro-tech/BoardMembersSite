@@ -1,10 +1,29 @@
 import { Button, Stack, TextField } from "@mui/material";
+import type { Election } from "@/classes/Election";
 import { createElectionAction } from "./action";
 
-export default function ElectionCreateForm() {
+export default function ElectionCreateForm({
+  isRunoff,
+  parentElection,
+  defaultCapacity,
+}: {
+  isRunoff?: boolean;
+  parentElection?: Election;
+  defaultCapacity?: number;
+}) {
   return (
     <Stack component={"form"} spacing={2} action={createElectionAction}>
-      <TextField label="選挙タイトル" name="title" required fullWidth />
+      <TextField
+        label="選挙タイトル"
+        name="title"
+        required
+        fullWidth
+        defaultValue={
+          isRunoff && parentElection
+            ? `【決選投票】${parentElection.title}`
+            : null
+        }
+      />
       <TextField
         label="選挙説明"
         name="description"
@@ -12,6 +31,25 @@ export default function ElectionCreateForm() {
         rows={8}
         fullWidth
       />
+      <TextField
+        label="定員"
+        name="capacity"
+        type="number"
+        fullWidth
+        defaultValue={defaultCapacity}
+      />
+      <input
+        type="hidden"
+        name="isRunoff"
+        value={isRunoff ? "true" : "false"}
+      />
+      {isRunoff && (
+        <input
+          type="hidden"
+          name="parentElectionId"
+          value={parentElection ? parentElection.id : ""}
+        />
+      )}
       <TextField
         label="開始日時"
         name="startAt"
