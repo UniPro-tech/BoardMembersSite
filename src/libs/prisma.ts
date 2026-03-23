@@ -1,12 +1,9 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not defined");
-}
-
 const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL,
+  // biome-ignore lint/style/noNonNullAssertion: ランタイムで入ることが保証されているため、ここでは非nullアサーションを使用する
+  connectionString: process.env.DATABASE_URL!,
 });
 
 const globalForPrisma = global as unknown as {
