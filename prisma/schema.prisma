@@ -133,7 +133,6 @@ model Vote {
   candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  isRunoff    Boolean   @default(false) // 決選投票かどうか
 
   @@unique([userId, electionId])
   @@map("vote")
