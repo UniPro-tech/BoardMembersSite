@@ -71,7 +71,7 @@ export default async function CandidateList({
   const runoffElection = isEnded && (await election.getRunoffElection());
   return (
     <Card id="candidate-list">
-      <CardContent>
+      <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {isEnded && (
           <>
             <Alert severity="warning" className="mb-4">
