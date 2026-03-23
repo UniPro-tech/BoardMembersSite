@@ -86,16 +86,21 @@ model Verification {
 }
 
 model Election {
-  id            String      @id @default(uuid()) @db.Uuid
-  name          String
-  description   String?
-  startDate     DateTime
-  standDeadline DateTime
-  endDate       DateTime
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  candidates    Candidate[]
-  votes         Vote[]
+  id               String      @id @default(uuid()) @db.Uuid
+  name             String
+  description      String?
+  startDate        DateTime
+  standDeadline    DateTime
+  endDate          DateTime
+  capacity         Int?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  candidates       Candidate[]
+  votes            Vote[]
+  isRunoff         Boolean     @default(false) // 決選投票かどうか
+  parentElectionId String?     @unique @db.Uuid // 決選投票の場合、元の選挙のID
+  parentElection   Election?   @relation("RunoffElection", fields: [parentElectionId], references: [id], onDelete: Cascade)
+  runoffElection   Election?   @relation("RunoffElection")
 
   @@index([startDate, endDate])
   @@index([name])
@@ -128,6 +133,7 @@ model Vote {
   candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  isRunoff    Boolean   @default(false) // 決選投票かどうか
 
   @@unique([userId, electionId])
   @@map("vote")
