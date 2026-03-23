@@ -73,11 +73,17 @@ export default async function StandingPage({
               立候補受付期間外です。
             </Typography>
 
-            <Typography variant="body2" color="textSecondary" sx={{ my: 2 }}>
-              立候補の受付期間は
-              {formatToLocaleStringJST(election.startAt)} から{" "}
-              {formatToLocaleStringJST(election.standDeadline)} までです。
-            </Typography>
+            {election.standDeadline ? (
+              <Typography variant="body2" color="textSecondary" sx={{ my: 2 }}>
+                立候補の受付期間は
+                {formatToLocaleStringJST(election.startAt)} から{" "}
+                {formatToLocaleStringJST(election.standDeadline)} までです。
+              </Typography>
+            ) : (
+              <Typography variant="body2" color="textSecondary" sx={{ my: 2 }}>
+                立候補の受付は終了しています。
+              </Typography>
+            )}
 
             <Alert severity="info" sx={{ my: 3, textAlign: "left" }}>
               <Typography variant="caption">
