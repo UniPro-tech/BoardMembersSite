@@ -198,12 +198,10 @@ export class Election {
         .slice(capacity)
         .some((item) => item.votes === lastWinnerVotes);
       if (hasTie) {
-        // 定員に入る最後の候補者と同数の票を得ている候補者がいる場合、同数の票を得ている候補者は全員落選とする
-        const cutoffIndex = candidatesWithVotes.findIndex(
-          (item, idx) => idx >= capacity - 1 && item.votes < lastWinnerVotes,
-        );
+        // 定員に入る最後の候補者と同数の票を得ている候補者がいる場合、
+        // その得票数と同じ票を得ている候補者は全員落選とする（得票数がより大きい候補者のみ当選）
         return candidatesWithVotes
-          .slice(0, cutoffIndex === -1 ? capacity - 1 : cutoffIndex)
+          .filter((item) => item.votes > lastWinnerVotes)
           .map((item) => item.candidate);
       }
     }
