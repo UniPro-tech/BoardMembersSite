@@ -168,8 +168,17 @@ export class Election {
     return candidates;
   }
 
-  async addCandidate(userId: string, description?: string): Promise<Candidate> {
-    const candidate = await Candidate.create(userId, this.id, description);
+  async addCandidate(
+    userId: string,
+    description?: string,
+    force: boolean = false,
+  ): Promise<Candidate> {
+    const candidate = await Candidate.create(
+      userId,
+      this.id,
+      description,
+      force,
+    );
     return candidate;
   }
 
@@ -256,7 +265,11 @@ export class Election {
     // タイブレークの候補者をランオフ選挙に追加する
     await Promise.all(
       runoffCandidates.map((candidate) =>
-        runoffElection.addCandidate(candidate.userId, candidate.description),
+        runoffElection.addCandidate(
+          candidate.userId,
+          candidate.description,
+          true,
+        ),
       ),
     );
     return runoffElection;

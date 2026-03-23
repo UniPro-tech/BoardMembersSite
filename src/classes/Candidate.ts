@@ -48,12 +48,13 @@ export class Candidate {
     userId: string,
     electionId: string,
     description?: string,
+    force: boolean = false,
   ): Promise<Candidate> {
     const election = await Election.findById(electionId);
     if (!election) {
       throw new Error("Election not found");
     }
-    if (!election.canStand) {
+    if (!election.canStand && !force) {
       throw new Error("Cannot stand for this election at this time");
     }
     const createdCandidate = await prisma.candidate.create({
