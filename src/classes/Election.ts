@@ -281,21 +281,29 @@ export class Election {
     if (this.capacity === undefined) {
       return false;
     }
+    // 定員以上の候補者がいる場合、定員に入る最後の候補者と同数の票を得ている候補者がいるか確認
     const candidates = await this.getCandidates();
     if (candidates.length <= this.capacity) {
       return false;
     }
+    // すべての候補者の得票数を並列で取得
     const votesCounts = await Promise.all(
       candidates.map((c) => c.getVotesCount()),
     );
+    // 候補者と得票数をペアにする
     const candidatesWithVotes = candidates.map((candidate, idx) => ({
       candidate,
       votes: votesCounts[idx],
     }));
+    // 得票数でソート
     candidatesWithVotes.sort((a, b) => b.votes - a.votes);
+    // 定員に入る最後の候補者と同数の票を得ている候補者が2名以上いるか確認
     const cutoffVotes =
       candidatesWithVotes[this.capacity - 1]?.votes ?? Number.MAX_SAFE_INTEGER;
-    return candidatesWithVotes.some((item) => item.votes === cutoffVotes);
+    const tieCandidates = candidatesWithVotes.filter(
+      (item) => item.votes === cutoffVotes,
+    );
+    return tieCandidates.length >= 2;
   }
 
   async getParentElection(): Promise<Election | null> {
