@@ -182,7 +182,12 @@ export class Election {
     return candidate;
   }
 
-  async getWinnerCandidates(): Promise<Candidate[]> {
+  async getWinnerCandidates(): Promise<
+    (Candidate & {
+      isRunoff?: boolean;
+    })[]
+  > {
+    const result: (Candidate & { isRunoff?: boolean })[] = [];
     const capacity = this.capacity;
     if (!capacity) {
       return [];
@@ -209,13 +214,40 @@ export class Election {
       if (hasTie) {
         // 定員に入る最後の候補者と同数の票を得ている候補者がいる場合、
         // その得票数と同じ票を得ている候補者は全員落選とする（得票数がより大きい候補者のみ当選）
-        return candidatesWithVotes
-          .filter((item) => item.votes > lastWinnerVotes)
-          .map((item) => item.candidate);
+        result.push(
+          ...candidatesWithVotes
+            .filter((item) => item.votes > lastWinnerVotes)
+            .map((item) => {
+              (item.candidate as Candidate & { isRunoff?: boolean }).isRunoff =
+                false;
+              return item.candidate;
+            }),
+        );
       }
     }
-    // Take top N
-    return candidatesWithVotes.slice(0, capacity).map((item) => item.candidate);
+    // 決選投票を取得
+    const runoffElection = await this.getRunoffElection();
+    if (runoffElection) {
+      const runoffCandidates = await runoffElection.getCandidates();
+      const runoffWinners = await runoffElection.getWinnerCandidates();
+      result.push(
+        ...runoffWinners.map((candidate) => {
+          const runoffCandidate = runoffCandidates.find(
+            (c) => c.id === candidate.id,
+          );
+          if (runoffCandidate) {
+            (candidate as Candidate & { isRunoff?: boolean }).isRunoff = true;
+          }
+          return candidate;
+        }),
+      );
+    } else {
+      // 定員以内の候補者は全員当選
+      result.push(
+        ...candidatesWithVotes.slice(0, capacity).map((item) => item.candidate),
+      );
+    }
+    return result;
   }
 
   async getRunoffElection(): Promise<Election | null> {
