@@ -65,6 +65,7 @@ export default async function CandidateList({
         },
         user: user || undefined,
         account: account || undefined,
+        isRunoff: candidate.isRunoff || false,
       };
     }),
   );

@@ -5,6 +5,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  Chip,
   Stack,
   Typography,
 } from "@mui/material";
@@ -29,6 +30,7 @@ export default function Client({
     candidate: CandidateJSON & { voteCount: number };
     user: User | undefined;
     account: Account | undefined;
+    isRunoff?: boolean;
   }[];
   existingVote?: VoteJSON | null;
   canVote?: boolean;
@@ -75,7 +77,12 @@ export default function Client({
           data.map((item) => (
             <Card key={item.candidate.id} variant="outlined">
               <CardContent>
-                <Typography variant="h6">{item.user?.name}</Typography>
+                <Typography variant="h6">
+                  {item.user?.name}{" "}
+                  {item.isRunoff && (
+                    <Chip label="決選投票" size="small" color="secondary" />
+                  )}
+                </Typography>
                 {item.candidate.description && (
                   <Typography variant="body2">
                     {item.candidate.description}
