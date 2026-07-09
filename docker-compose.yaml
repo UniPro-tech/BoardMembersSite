@@ -1,7 +1,7 @@
 name: vote-system
 services:
-  app:
-    build: .
+  dashboard:
+    build: ./apps/dashboard
     ports:
       - "3000:3000"
     depends_on:
@@ -38,7 +38,6 @@ services:
       - vote-system-network
 volumes:
   db_data:
-
 networks:
   vote-system-network:
     driver: bridge

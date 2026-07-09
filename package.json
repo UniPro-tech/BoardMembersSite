@@ -1,50 +1,31 @@
 {
-  "name": "vote-system",
-  "version": "1.6.16",
+  "name": "boardmember-system",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "biome check --write",
-    "format": "biome format --write"
+    "db:types:generate": "bun run -F @board/db db:types:generate",
+    "db:migrate:dev": "bun run -F @board/db db:migrate:dev",
+    "db:migrate:deploy": "bun run -F @board/db db:migrate:deploy",
+    "db:studio": "bun run -F @board/db db:studio",
+    "lint": "bun run --sequential --workspaces lint",
+    "lint:fix": "bun run --sequential --workspaces lint:fix",
+    "format": "bun run --sequential --workspaces format"
   },
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.11",
-    "@mui/material": "^7.3.11",
-    "@prisma/adapter-pg": "^7.8.0",
-    "@prisma/client": "^7.8.0",
-    "better-auth": "^1.6.23",
-    "dotenv": "^17.4.2",
-    "next": "16.2.9",
-    "notistack": "^3.0.2",
-    "pg": "^8.22.0",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-markdown": "^10.1.0",
-    "remark-gfm": "^4.0.1"
-  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",
-    "@tailwindcss/postcss": "^4.3.2",
-    "@types/node": "^20.19.43",
-    "@types/pg": "^8.20.0",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "prisma": "^7.8.0",
-    "tailwindcss": "^4.3.2",
-    "tsx": "^4.23.0",
-    "typescript": "^5.9.3"
+    "dotenv": "^17.4.2"
   },
-  "ignoreScripts": [
-    "sharp",
-    "unrs-resolver"
-  ],
-  "trustedDependencies": [
-    "sharp",
-    "unrs-resolver"
-  ]
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./client": {
+      "types": "./src/client.ts",
+      "default": "./src/client.ts"
+    }
+  }
 }
