@@ -1,5 +1,5 @@
+import { Election } from "@board/shared/classes";
 import { Stack, Typography } from "@mui/material";
-import { Election } from "@/classes/Election";
 import ElectionCard from "@/components/ElectionCard";
 
 export const dynamic = "force-dynamic";

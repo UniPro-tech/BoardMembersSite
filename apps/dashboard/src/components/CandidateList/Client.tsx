@@ -1,5 +1,7 @@
 "use client";
 
+import type { Account, User } from "@board/prisma";
+import type { CandidateJSON, VoteJSON } from "@board/shared/classes";
 import {
   Button,
   Card,
@@ -11,10 +13,6 @@ import {
 } from "@mui/material";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { useState } from "react";
-import type { CandidateJSON } from "@/classes/Candidate";
-import type { VoteJSON } from "@/classes/Vote";
-import { nowUTC } from "@/libs/date";
-import type { Account, User } from "../../generated/prisma/client";
 import { deleteCandidateAction, toggleVote } from "./action";
 
 export default function Client({
@@ -50,8 +48,8 @@ export default function Client({
             userId: "temp-user-id",
             candidateId,
             electionId: "temp-election-id",
-            createdAt: nowUTC(),
-            updatedAt: nowUTC(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
           };
       setExistingVote(updatedVote);
     } catch {

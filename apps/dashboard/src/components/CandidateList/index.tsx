@@ -1,11 +1,10 @@
+import { prisma } from "@board/prisma";
+import type { Candidate, Election } from "@board/shared/classes";
+import { Vote } from "@board/shared/classes";
 import { Alert, Button, Card, CardContent, Typography } from "@mui/material";
 import { headers } from "next/headers";
 import { unauthorized } from "next/navigation";
-import type { Candidate } from "@/classes/Candidate";
-import type { Election } from "@/classes/Election";
-import { Vote } from "@/classes/Vote";
 import { auth } from "@/libs/auth";
-import prisma from "@/libs/prisma";
 import Client from "./Client";
 
 export default async function CandidateList({

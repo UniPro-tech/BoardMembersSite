@@ -1,7 +1,7 @@
+import { Election } from "@board/shared/classes";
 import { Stack, Typography } from "@mui/material";
 import { headers } from "next/headers";
 import { forbidden, notFound, unauthorized } from "next/navigation";
-import { Election } from "@/classes/Election";
 import ElectionEditForm from "@/components/Forms/ElectionEditForm";
 import { auth } from "@/libs/auth";
 

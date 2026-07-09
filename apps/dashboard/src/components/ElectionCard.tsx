@@ -1,3 +1,4 @@
+import type { Election } from "@board/shared/classes";
 import {
   Alert,
   Button,
@@ -12,7 +13,6 @@ import { headers } from "next/headers";
 import { unauthorized } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import type { Election } from "@/classes/Election";
 import { auth } from "@/libs/auth";
 import { formatToLocaleStringJST } from "@/libs/date";
 

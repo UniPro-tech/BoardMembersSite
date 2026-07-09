@@ -1,3 +1,4 @@
+import { Candidate, Election } from "@board/shared/classes";
 import ErrorIcon from "@mui/icons-material/Error";
 import HomeIcon from "@mui/icons-material/Home";
 import {
@@ -12,8 +13,6 @@ import {
 } from "@mui/material";
 import { headers } from "next/headers";
 import { forbidden, notFound, unauthorized } from "next/navigation";
-import { Candidate } from "@/classes/Candidate";
-import { Election } from "@/classes/Election";
 import CandidateEditForm from "@/components/Forms/CandidateEditForm";
 import { auth } from "@/libs/auth";
 import { formatToLocaleStringJST } from "@/libs/date";

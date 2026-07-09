@@ -1,3 +1,4 @@
+import { Election } from "@board/shared/classes";
 import ErrorIcon from "@mui/icons-material/Error";
 import HomeIcon from "@mui/icons-material/Home";
 import {
@@ -11,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import { notFound } from "next/navigation";
-import { Election } from "@/classes/Election";
 import StandForm from "@/components/Forms/StandForm";
 import { formatToLocaleStringJST } from "@/libs/date";
 

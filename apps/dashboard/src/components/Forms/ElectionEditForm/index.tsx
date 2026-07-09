@@ -1,5 +1,5 @@
+import type { Election } from "@board/shared/classes";
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import type { Election } from "@/classes/Election";
 import { formatToDatetimeLocalJST } from "@/libs/date";
 import { deleteElectionAction, updateElectionAction } from "./action";
 

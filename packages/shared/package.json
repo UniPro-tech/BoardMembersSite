@@ -16,5 +16,15 @@
   },
   "dependencies": {
     "@board/prisma": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./classes": {
+      "types": "./src/classes/index.ts",
+      "default": "./src/classes/index.ts"
+    }
   }
 }

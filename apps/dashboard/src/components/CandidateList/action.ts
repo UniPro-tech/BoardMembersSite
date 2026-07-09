@@ -1,10 +1,8 @@
 "use server";
 
+import { Candidate, Election, Vote } from "@board/shared/classes";
 import { headers } from "next/headers";
 import { unauthorized } from "next/navigation";
-import { Candidate } from "@/classes/Candidate";
-import { Election } from "@/classes/Election";
-import { Vote } from "@/classes/Vote";
 import { auth } from "@/libs/auth";
 
 export const toggleVote = async (candidateId: string) => {

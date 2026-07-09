@@ -1,5 +1,5 @@
+import type { CandidateJSON } from "@board/shared/classes";
 import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
-import type { CandidateJSON } from "@/classes/Candidate";
 import { editCandidateAction, makeIneligible } from "./action";
 
 export default function CandidateEditForm({

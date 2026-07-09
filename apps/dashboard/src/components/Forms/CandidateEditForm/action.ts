@@ -1,9 +1,8 @@
 "use server";
 
+import { Candidate, Election } from "@board/shared/classes";
 import { headers } from "next/headers";
 import { redirect, unauthorized } from "next/navigation";
-import { Candidate } from "@/classes/Candidate";
-import { Election } from "@/classes/Election";
 import { auth } from "@/libs/auth";
 
 export const editCandidateAction = async (formData: FormData) => {

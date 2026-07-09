@@ -1,7 +1,7 @@
 "use server";
 
+import { Election } from "@board/shared/classes";
 import { redirect } from "next/navigation";
-import { Election } from "@/classes/Election";
 import { parseDatetimeLocalAsJST } from "@/libs/date";
 
 export const updateElectionAction = async (formData: FormData) => {

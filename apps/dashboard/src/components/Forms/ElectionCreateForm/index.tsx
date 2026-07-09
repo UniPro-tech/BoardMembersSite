@@ -1,5 +1,5 @@
+import type { Election } from "@board/shared/classes";
 import { Button, Stack, TextField } from "@mui/material";
-import type { Election } from "@/classes/Election";
 import { createElectionAction } from "./action";
 
 export default function ElectionCreateForm({

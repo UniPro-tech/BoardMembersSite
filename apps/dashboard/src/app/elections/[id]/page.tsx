@@ -1,6 +1,6 @@
+import { Election } from "@board/shared/classes";
 import { Stack } from "@mui/material";
 import { notFound } from "next/navigation";
-import { Election } from "@/classes/Election";
 import CandidateList from "@/components/CandidateList";
 import ElectctionCard from "@/components/ElectionCard";
 

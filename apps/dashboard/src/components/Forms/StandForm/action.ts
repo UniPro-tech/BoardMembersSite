@@ -1,8 +1,8 @@
 "use server";
 
+import { Election } from "@board/shared/classes";
 import { headers } from "next/headers";
 import { redirect, unauthorized } from "next/navigation";
-import { Election } from "@/classes/Election";
 import { auth } from "@/libs/auth";
 
 export const standAction = async (formData: FormData) => {
