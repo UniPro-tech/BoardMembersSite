@@ -2,10 +2,11 @@
   "name": "boardmember-system",
   "private": true,
   "scripts": {
-    "db:types:generate": "bun run -F @board/db db:types:generate",
-    "db:migrate:dev": "bun run -F @board/db db:migrate:dev",
-    "db:migrate:deploy": "bun run -F @board/db db:migrate:deploy",
-    "db:studio": "bun run -F @board/db db:studio",
+    "db:types:generate": "dotenv -e .env -- bun run -F @board/prisma db:types:generate",
+    "db:migrate:dev": "dotenv -e .env -- bun run -F @board/prisma db:migrate:dev",
+    "db:migrate:deploy": "dotenv -e .env -- bun run -F @board/prisma db:migrate:deploy",
+    "db:studio": "dotenv -e .env -- bun run -F @board/prisma db:studio",
+    "dev": "dotenv -e .env -- bun run -F @board/dashboard dev",
     "lint": "bun run --sequential --workspaces lint",
     "lint:fix": "bun run --sequential --workspaces lint:fix",
     "format": "bun run --sequential --workspaces format"
@@ -16,7 +17,8 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "dotenv-cli": "^11.0.0"
   },
   "exports": {
     ".": {
