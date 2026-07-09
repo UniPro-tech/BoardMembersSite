@@ -22,4 +22,4 @@ jobs:
         with:
           version: latest
       - name: Run Biome
-        run: biome ci .
+        run: bun run --sequential --workspaces lint

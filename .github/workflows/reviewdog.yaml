@@ -9,6 +9,12 @@ on:
     paths-ignore:
       - "*.md"
       - ".vscode/**"
+      - "docker-compose.yaml"
+      - "**/Dockerfile"
+      - ".gitignore"
+      - "argocd/**"
+      - ".github/**"
+      - ".env.example"
 jobs:
   biome:
     name: runner / Biome
