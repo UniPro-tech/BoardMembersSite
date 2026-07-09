@@ -1,0 +1,31 @@
+"scope/dashbaord":
+      - any:
+              - changed-files:
+                      - any-glob-to-any-file:
+                              - apps/dashboard/**/*
+"scope/discord":
+      - any:
+              - changed-files:
+                      - any-glob-to-any-file:
+                              - apps/discord/**/*
+"scope/infra":
+      - any:
+              - changed-files:
+                      - any-glob-to-any-file:
+                              - kustomizations/**/*
+"scope/dev":
+      - any:
+              - changed-files:
+                      - any-glob-to-any-file:
+                              - .github/**/*
+                              - .vscode/**/*
+                              - docker-compose.yml
+                              - renovate.json
+                              - biome.json
+                              - .gitignore
+
+"scope/shared":
+      - any:
+              - changed-files:
+                      - any-glob-to-any-file:
+                              - packages/**/*
