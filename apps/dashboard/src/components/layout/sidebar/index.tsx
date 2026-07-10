@@ -166,7 +166,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   className="size-16"
                 />
               </div>
-              <div className="grid flex-1 text-left leading-tight gap-1">
+              <div className="grid flex-1 text-left leading-tight gap-2 mb-2">
                 <span className="truncate text-xs ml-1">UniProject</span>
                 <span className="truncate font-medium text-h3">役員会</span>
               </div>
