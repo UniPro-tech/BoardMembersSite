@@ -3,16 +3,14 @@
 import {
   BookOpenIcon,
   BotIcon,
-  FrameIcon,
   LifeBuoyIcon,
-  MapIcon,
-  PieChartIcon,
   SendIcon,
   Settings2Icon,
   TerminalSquareIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import type * as React from "react";
 import { NavMain } from "@/components/layout/sidebar/nav-main";
 import { NavSecondary } from "@/components/layout/sidebar/nav-secondary";
@@ -26,6 +24,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { authClient } from "@/libs/auth-client";
 
 const data = {
   user: {
@@ -132,25 +131,15 @@ const data = {
       icon: <SendIcon />,
     },
   ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: <FrameIcon />,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: <PieChartIcon />,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: <MapIcon />,
-    },
-  ],
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const {
+    data: session,
+    isPending: sessionIsPending,
+    isRefetching: sessionIsRefetching,
+  } = authClient.useSession();
+  if (!session && !sessionIsPending && !sessionIsRefetching)
+    redirect("/signin");
   return (
     <Sidebar variant="sidebar" {...props}>
       <SidebarHeader>
@@ -179,7 +168,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={session?.user} />
       </SidebarFooter>
     </Sidebar>
   );

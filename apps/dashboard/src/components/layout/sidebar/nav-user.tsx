@@ -1,12 +1,11 @@
 "use client";
 
+import type { StripEmptyObjects } from "better-auth/client";
 import {
-  BadgeCheckIcon,
-  BellIcon,
   ChevronsUpDownIcon,
-  CreditCardIcon,
+  ExternalLinkIcon,
   LogOutIcon,
-  SparklesIcon,
+  UserIcon,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -28,81 +27,97 @@ import {
 export function NavUser({
   user,
 }: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
+  user:
+    | StripEmptyObjects<
+        {
+          id: string;
+          createdAt: Date;
+          updatedAt: Date;
+          email: string;
+          emailVerified: boolean;
+          name: string;
+          image?: string | null | undefined;
+        } & {
+          banned: boolean | null | undefined;
+        } & {
+          banExpires?: Date | null | undefined;
+          banReason?: string | null | undefined;
+          role?: string | null | undefined;
+        }
+      >
+    | undefined
+    | null;
 }) {
   const { isMobile } = useSidebar();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <SidebarMenuButton size="xl" className="aria-expanded:bg-muted" />
-            }
-          >
-            <Avatar size={"lg"}>
-              <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback>{user.name.at(0)}</AvatarFallback>
-            </Avatar>
-            <div className="grid flex-1 text-left leading-tight text-normal">
-              <span className="truncate font-medium">{user.name}</span>
-              <span className="truncate text-xs">{user.email}</span>
-            </div>
-            <ChevronsUpDownIcon className="ml-auto size-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            align="end"
-            sideOffset={4}
-          >
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar>
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback>{user.name.at(0)}</AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <SidebarMenuButton
+                  size="xl"
+                  className="aria-expanded:bg-muted"
+                />
+              }
+            >
+              <Avatar size={"lg"}>
+                {user.image ? (
+                  <AvatarImage src={user.image} alt={user.name} />
+                ) : (
+                  <AvatarFallback>{user.name.at(0)}</AvatarFallback>
+                )}
+              </Avatar>
+              <div className="grid flex-1 text-left leading-tight text-normal">
+                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate text-xs">{user.email}</span>
+              </div>
+              <ChevronsUpDownIcon className="ml-auto size-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="min-w-56 rounded-lg"
+              side={isMobile ? "bottom" : "right"}
+              align="end"
+              sideOffset={4}
+            >
+              <DropdownMenuGroup>
+                <DropdownMenuLabel className="py-4 font-normal">
+                  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                    <Avatar>
+                      {user.image ? (
+                        <AvatarImage src={user.image} alt={user.name} />
+                      ) : (
+                        <AvatarFallback>{user.name.at(0)}</AvatarFallback>
+                      )}
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-medium">{user.name}</span>
+                      <span className="truncate text-xs ml-1">
+                        {user.email}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </DropdownMenuLabel>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
+                </DropdownMenuLabel>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <UserIcon />
+                  アカウント
+                  <ExternalLinkIcon />
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <SparklesIcon />
-                Upgrade to Pro
+                <LogOutIcon />
+                ログアウト
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheckIcon />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BellIcon />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOutIcon />
-              Log out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          "ロード中"
+        )}
       </SidebarMenuItem>
     </SidebarMenu>
   );
