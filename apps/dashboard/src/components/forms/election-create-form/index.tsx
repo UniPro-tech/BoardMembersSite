@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import * as z from "zod";
+import type * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,56 +29,8 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-
-const formSchema = z
-  .object({
-    title: z
-      .string()
-      .min(5, "タイトルは5文字以上で入力してください。")
-      .max(256, "タイトルは256文字以内で入力してください。"),
-    description: z
-      .string()
-      .min(20, "ユーザービリティのため20文字以上は入力してください。"),
-    capacity: z.number().min(1, "定員は1名以上である必要があります。"),
-    startAt: z.iso.datetime(),
-    standDeadline: z.string(),
-    endAt: z.iso.datetime(),
-  })
-  .refine((data) => {
-    const now = new Date();
-    const startAt = new Date(data.startAt);
-    const standDeadline =
-      data.standDeadline !== "" && new Date(data.standDeadline);
-    const endAt = new Date(data.endAt);
-    const errors = {
-      startAt: undefined,
-      standDeadline: undefined,
-      endAt: undefined,
-    } as {
-      startAt?: string;
-      standDeadline?: string;
-      endAt?: string;
-    };
-    if (now > startAt) {
-      errors.startAt = "現在時刻よりも早い時間を指定することはできません。";
-    }
-    if (standDeadline) {
-      if (startAt > standDeadline) {
-        errors.standDeadline =
-          "開始時刻よりも早い時刻を設定することはできません。";
-      }
-      if (standDeadline > endAt) {
-        errors.endAt =
-          "立候補締め切り時刻よりも早い時刻を設定することはできません。";
-      }
-    } else {
-      if (startAt > endAt) {
-        errors.standDeadline =
-          "開始時刻よりも早い時刻を設定することはできません。";
-      }
-    }
-    return errors;
-  });
+import { createElectionAction } from "./server/action";
+import { formSchema } from "./shared/schema";
 
 export function ElectionCreateForm({
   isRunoff,
@@ -101,21 +53,27 @@ export function ElectionCreateForm({
     },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast("これらの内容で送信しました:", {
-      description: (
-        <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    toast.promise(
+      createElectionAction({
+        data,
+        isRunoff,
+        parentElectionId: parentElection?.id,
+      }),
+      {
+        loading: "送信中...",
+        success: (data) => {
+          router.push(data);
+          return "選挙を作成しました！";
+        },
+        error: (e: Error) => {
+          return {
+            message: "エラーが発生しました",
+            description: e.message,
+          };
+        },
       },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    });
+    );
   }
 
   return (
@@ -190,10 +148,11 @@ export function ElectionCreateForm({
                     {...field}
                     id="capacity"
                     aria-invalid={fieldState.invalid}
-                    defaultValue={0}
                     autoComplete="off"
                     type={"number"}
                     required
+                    value={field.value ?? ""}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -211,7 +170,6 @@ export function ElectionCreateForm({
                     {...field}
                     id="startAt"
                     aria-invalid={fieldState.invalid}
-                    defaultValue={0}
                     autoComplete="off"
                     type={"datetime-local"}
                     required
@@ -222,18 +180,7 @@ export function ElectionCreateForm({
                 </Field>
               )}
             />
-            <input
-              type="hidden"
-              name="isRunoff"
-              value={isRunoff ? "true" : "false"}
-            />
-            {isRunoff ? (
-              <input
-                type="hidden"
-                name="parentElectionId"
-                value={parentElection ? parentElection.id : ""}
-              />
-            ) : (
+            {!isRunoff && (
               <Controller
                 name={"standDeadline"}
                 control={form.control}
@@ -246,7 +193,6 @@ export function ElectionCreateForm({
                       {...field}
                       id="startAt"
                       aria-invalid={fieldState.invalid}
-                      defaultValue={0}
                       autoComplete="off"
                       type={"datetime-local"}
                       required
@@ -268,7 +214,6 @@ export function ElectionCreateForm({
                     {...field}
                     id="endAt"
                     aria-invalid={fieldState.invalid}
-                    defaultValue={0}
                     autoComplete="off"
                     type={"datetime-local"}
                     required
@@ -288,7 +233,7 @@ export function ElectionCreateForm({
             キャンセル
           </Button>
           <Button type="submit" form="form-rhf-demo">
-            送信
+            作成
           </Button>
         </Field>
       </CardFooter>
