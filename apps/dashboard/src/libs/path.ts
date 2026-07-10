@@ -4,8 +4,14 @@ import { usePathname } from "next/navigation";
 
 const PAGE_MAP = {
   ".": "ホーム",
-  elections: {
-    ".": "選挙一覧",
+  election: {
+    ".": "選挙",
+    list: {
+      ".": "一覧",
+    },
+    new: {
+      ".": "新しい選挙の作成",
+    },
   },
 } as const;
 
