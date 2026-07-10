@@ -25,7 +25,10 @@ export default function Breadcrumb() {
               )}
             </BreadcrumbItem>
             {index + 1 < breadcrumbItemData.length && (
-              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbSeparator
+                className="hidden md:block"
+                key={data.path}
+              />
             )}
           </>
         ))}

@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  BookOpenIcon,
-  BotIcon,
-  LifeBuoyIcon,
-  SendIcon,
-  Settings2Icon,
-  TerminalSquareIcon,
-} from "lucide-react";
+import { LifeBuoyIcon, ScaleIcon, SendIcon, VoteIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -34,87 +27,41 @@ const data = {
   },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: <TerminalSquareIcon />,
+      title: "議会",
+      url: "/council",
+      icon: <ScaleIcon />,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "最近の議会",
+          url: "/council/recent",
         },
         {
-          title: "Starred",
-          url: "#",
+          title: "議案一覧",
+          url: "/council/bills",
         },
         {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: <BotIcon />,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: "パブリックコメント",
+          url: "/council/public_comment",
         },
       ],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: <BookOpenIcon />,
+      title: "選挙",
+      url: "/election",
+      icon: <VoteIcon />,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "選挙一覧",
+          url: "/election/list",
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: "立候補可能な選挙",
+          url: "/election/can_stand",
         },
         {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: <Settings2Icon />,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "投票可能な選挙",
+          url: "/election/can_vote",
         },
       ],
     },

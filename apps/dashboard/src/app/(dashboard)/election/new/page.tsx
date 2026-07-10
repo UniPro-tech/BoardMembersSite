@@ -1,7 +1,6 @@
-import { Stack, Typography } from "@mui/material";
 import { headers } from "next/headers";
 import { forbidden, unauthorized } from "next/navigation";
-import ElectionCreateForm from "@/components/Forms/ElectionCreateForm";
+import { ElectionCreateForm } from "@/components/forms/election-create-form";
 import { auth } from "@/libs/auth";
 
 export const dynamic = "force-dynamic";
@@ -11,18 +10,13 @@ export default async function VotePage() {
   if (!sesssion) {
     unauthorized();
   }
+  console.log(sesssion.user.role);
   if (sesssion.user.role !== "admin") {
     forbidden();
   }
   return (
-    <Stack>
-      <Typography variant="h4" component="h1" className="font-bold">
-        選挙作成
-      </Typography>
-      <Typography variant="body1" className="text-gray-600">
-        新しい選挙を作成します。作成後、候補者を追加できます。
-      </Typography>
+    <main className="flex items-center justify-center p-6">
       <ElectionCreateForm />
-    </Stack>
+    </main>
   );
 }
