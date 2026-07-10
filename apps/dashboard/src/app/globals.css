@@ -46,6 +46,32 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --text-sm: 1.6rem;
+  --text-sm--line-height: 1;
+  --text-normal: 1.8rem;
+  --text-normal--letter-spacing: 0.18rem;
+  --text-h2: 3.2rem;
+  --text-h2--line-height: 1;
+  --text-h3: 2.8rem;
+  --text-h3--line-height: 1;
+  --text-xs: 1.2rem;
+  --text-xs--line-height: 1;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+body {
+  @apply text-normal;
+}
+
+h2 {
+  @apply text-h2;
+}
+
+h3 {
+  @apply text-h3;
 }
 
 /* Markdown Styles */

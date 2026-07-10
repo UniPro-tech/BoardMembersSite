@@ -2,8 +2,8 @@ import { Election } from "@board/shared/classes";
 import { Stack, Typography } from "@mui/material";
 import { headers } from "next/headers";
 import { forbidden, notFound, unauthorized } from "next/navigation";
-import { GenerateErrorPage } from "@/app/error";
-import ElectionCreateForm from "@/components/Forms/ElectionCreateForm";
+import { GenerateErrorPage } from "@/app/(dashboard)/error";
+import ElectionCreateForm from "@/components/forms/ElectionCreateForm";
 import { auth } from "@/libs/auth";
 
 export const dynamic = "force-dynamic";
