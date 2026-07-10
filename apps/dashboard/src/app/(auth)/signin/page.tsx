@@ -2,7 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { LoginForm } from "@/components/forms/login-form";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  params,
+}: {
+  params: Promise<{ redirect: string }>;
+}) {
+  const { redirect } = await params;
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
       <div className="flex w-full max-w-3xl flex-col gap-15">
@@ -21,7 +26,7 @@ export default function LoginPage() {
           </div>
           UniProject 役員会サイト
         </Link>
-        <LoginForm />
+        <LoginForm redirect={redirect} />
       </div>
     </div>
   );
