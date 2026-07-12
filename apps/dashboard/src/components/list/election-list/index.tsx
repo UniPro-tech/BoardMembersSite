@@ -1,11 +1,10 @@
 "use client";
 
 import type { ElectionDTO } from "@board/shared/classes";
-import { string } from "better-auth";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { ItemGroup } from "@/components/ui/item";
-import { ElectionCard } from "../../item/election-card";
+import { ElectionCard } from "../../items/election-card";
 import { Card, CardContent, CardHeader } from "../../ui/card";
 import {
   InputGroup,
