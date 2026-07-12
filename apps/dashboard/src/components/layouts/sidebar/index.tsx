@@ -5,9 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import type * as React from "react";
-import { NavMain } from "@/components/layout/sidebar/nav-main";
-import { NavSecondary } from "@/components/layout/sidebar/nav-secondary";
-import { NavUser } from "@/components/layout/sidebar/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +15,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { authClient } from "@/libs/auth-client";
+import { NavMain } from "./nav-main";
+import { NavSecondary } from "./nav-secondary";
+import { NavUser } from "./nav-user";
 
 const data = {
   user: {
