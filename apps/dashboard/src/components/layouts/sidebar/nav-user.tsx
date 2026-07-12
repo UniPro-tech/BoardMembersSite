@@ -82,9 +82,9 @@ export function NavUser({
               sideOffset={4}
             >
               <DropdownMenuGroup>
-                <DropdownMenuLabel className="py-4 font-normal">
+                <DropdownMenuLabel className="min-h-24 py-4 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <Avatar>
+                    <Avatar size="lg">
                       {user.image ? (
                         <AvatarImage src={user.image} alt={user.name} />
                       ) : (
