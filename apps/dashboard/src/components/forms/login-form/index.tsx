@@ -38,13 +38,13 @@ export function LoginForm({
                     });
                   }}
                 >
-                  <div className="flex size-6 items-center justify-center rounded-md">
+                  <div className="flex size-10 items-center justify-center rounded-md">
                     <Image
                       src={"/img/unique.png"}
                       width={120}
                       height={120}
                       alt="UniQUEのロゴ"
-                      className="size-6"
+                      className="size-10"
                     />
                   </div>
                   {isLoading ? "ロード中" : "UniQUEでログイン"}

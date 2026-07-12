@@ -15,13 +15,13 @@ export default async function LoginPage({
           href="#"
           className="flex items-center gap-2 self-center font-medium text-h2"
         >
-          <div className="flex size-10 items-center justify-center rounded-md grow">
+          <div className="flex size-14 items-center justify-center rounded-md grow">
             <Image
               src={"/img/unipro_logo.webp"}
               width={120}
               height={120}
               alt="UniProjectのロゴ"
-              className="size-10"
+              className="size-14"
             />
           </div>
           UniProject 役員会サイト

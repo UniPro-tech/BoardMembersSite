@@ -27,18 +27,18 @@ const data = {
   },
   navMain: [
     {
-      title: "議会",
+      title: "議事録",
       url: "/council",
       icon: <ScaleIcon />,
       isActive: true,
       items: [
         {
-          title: "最近の議会",
+          title: "最近の議事録",
           url: "/council/recent",
         },
         {
-          title: "議案一覧",
-          url: "/council/bills",
+          title: "議事録一覧",
+          url: "/council/minutes",
         },
         {
           title: "パブリックコメント",

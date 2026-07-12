@@ -1,6 +1,22 @@
 import { type Election as PrismaElection, prisma } from "@board/prisma";
 import { Candidate } from "./Candidate";
 
+export interface ElectionDTO {
+  id: string;
+  title: string;
+  description?: string;
+  capacity?: number;
+  parentElectionId?: string;
+  isActive: boolean;
+  isRunoff: boolean;
+  canStand: boolean;
+  startAt: Date;
+  standDeadline: Date | null;
+  endAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export class Election {
   id: string;
   title: string;
@@ -344,5 +360,11 @@ export class Election {
       where: { id: this.parentElectionId },
     });
     return parentElection ? Election.fromPrisma(parentElection) : null;
+  }
+
+  toJson(): ElectionDTO {
+    return {
+      ...this,
+    };
   }
 }
