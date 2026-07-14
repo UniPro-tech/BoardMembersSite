@@ -1,8 +1,7 @@
 import { Election } from "@board/shared/classes";
-import { Stack } from "@mui/material";
 import { notFound } from "next/navigation";
 import CandidateList from "@/components/CandidateList";
-import { ElectionItem } from "@/components/items/election-item";
+import ElectionDetailsCard from "@/components/cards/election-details";
 
 export const dynamic = "force-dynamic";
 
@@ -17,12 +16,12 @@ export default async function ElectionDetailPage({
     notFound();
   }
   return (
-    <Stack maxWidth={"1200px"} p={2} gap={2} mx="auto">
-      <ElectionItem election={election} />
+    <div className="max-w-4xl flex flex-col gap-4 p-4">
+      <ElectionDetailsCard election={election} />
       <CandidateList
         candidates={await election.getCandidates()}
         election={election}
       />
-    </Stack>
+    </div>
   );
 }
