@@ -2,7 +2,7 @@ import { Election } from "@board/shared/classes";
 import { Stack } from "@mui/material";
 import { notFound } from "next/navigation";
 import CandidateList from "@/components/CandidateList";
-import { ElectionCard } from "@/components/item/election-card";
+import { ElectionItem } from "@/components/items/election-item";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +18,7 @@ export default async function ElectionDetailPage({
   }
   return (
     <Stack maxWidth={"1200px"} p={2} gap={2} mx="auto">
-      <ElectionCard />
+      <ElectionItem election={election} />
       <CandidateList
         candidates={await election.getCandidates()}
         election={election}

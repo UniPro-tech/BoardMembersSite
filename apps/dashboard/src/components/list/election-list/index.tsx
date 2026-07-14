@@ -4,7 +4,7 @@ import type { Prisma } from "@board/prisma";
 import type { ElectionDTO } from "@board/shared/classes";
 import { useEffect, useState } from "react";
 import { ItemGroup } from "@/components/ui/item";
-import { ElectionCard } from "../../items/election-card";
+import { ElectionItem } from "../../items/election-item";
 import { Card, CardContent } from "../../ui/card";
 import SearchHeader from "./search-header";
 import { searchElection } from "./server/searchAction";
@@ -39,7 +39,7 @@ export function ElectionList({
       <CardContent>
         <ItemGroup className="w-full">
           {elections.map((election) => (
-            <ElectionCard election={election} key={election.id} />
+            <ElectionItem election={election} key={election.id} />
           ))}
         </ItemGroup>
       </CardContent>

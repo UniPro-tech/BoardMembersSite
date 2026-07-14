@@ -9,7 +9,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 
-export function ElectionCard({ election }: { election: ElectionDTO }) {
+export function ElectionItem({ election }: { election: ElectionDTO }) {
   return (
     <Link href={`/election/${election.id}`}>
       <Item variant={"outline"}>
