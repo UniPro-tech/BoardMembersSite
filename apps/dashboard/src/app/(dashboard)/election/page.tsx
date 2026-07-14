@@ -1,5 +1,5 @@
 import { Election } from "@board/shared/classes";
-import { ElectionList } from "@/components/list/election-list";
+import { ElectionList } from "@/components/lists/election-list";
 
 export const dynamic = "force-dynamic";
 
