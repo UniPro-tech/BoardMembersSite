@@ -29,6 +29,7 @@ export function LoginForm({
                   variant="outline"
                   type="button"
                   disabled={isLoading}
+                  className={"font-medium"}
                   onClick={async (e) => {
                     e.preventDefault();
                     setIsLoading(true);

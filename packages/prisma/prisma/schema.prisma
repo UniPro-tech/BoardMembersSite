@@ -103,7 +103,8 @@ model Election {
   runoffElection   Election?   @relation("RunoffElection")
 
   @@index([startDate, endDate])
-  @@index([name])
+  @@index([description(ops: raw("gin_bigm_ops"))], type: Gin)
+  @@index([name(ops: raw("gin_bigm_ops"))], type: Gin)
   @@map("election")
 }
 

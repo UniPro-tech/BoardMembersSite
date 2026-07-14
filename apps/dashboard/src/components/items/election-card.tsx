@@ -14,7 +14,7 @@ export function ElectionCard({ election }: { election: ElectionDTO }) {
     <Link href={`/election/${election.id}`}>
       <Item variant={"outline"}>
         <ItemMedia variant="icon">
-          <VoteIcon size={8} />
+          <VoteIcon size={8} className="size-8" />
         </ItemMedia>
         <ItemContent>
           <ItemTitle>{election.title}</ItemTitle>

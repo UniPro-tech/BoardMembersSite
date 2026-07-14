@@ -9,7 +9,7 @@ export default async function ElectionPage() {
     <main className="flex flex-col items-left justify-center p-6">
       <h3 className="w-full">選挙一覧</h3>
       <p className="mt-8">実施中もしくは既に終了した選挙の一覧です。</p>
-      <ElectionList elections={elections.map((e) => e.toJson())} />
+      <ElectionList defaultElections={elections.map((e) => e.toJson())} />
     </main>
   );
 }

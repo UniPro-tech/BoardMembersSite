@@ -1,39 +1,41 @@
 "use client";
 
+import type { Prisma } from "@board/prisma";
 import type { ElectionDTO } from "@board/shared/classes";
-import { SearchIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ItemGroup } from "@/components/ui/item";
 import { ElectionCard } from "../../items/election-card";
-import { Card, CardContent, CardHeader } from "../../ui/card";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "../../ui/input-group";
-import { ToggleGroup, ToggleGroupItem } from "../../ui/toggle-group";
+import { Card, CardContent } from "../../ui/card";
+import SearchHeader from "./search-header";
+import { searchElection } from "./server/searchAction";
 
-export function ElectionList({ elections }: { elections: ElectionDTO[] }) {
-  const [setSearchQuery, searchQuery] = useState({ word: "", type: 0 });
+export function ElectionList({
+  defaultElections,
+}: {
+  defaultElections: ElectionDTO[];
+}) {
+  const [andSearchQuery, setAndSearchQuery] = useState<
+    Prisma.ElectionWhereInput[]
+  >([]);
+  const [orSearchQuery, setOrSearchQuery] = useState<
+    Prisma.ElectionWhereInput[]
+  >([]);
+  const [elections, setElections] = useState<ElectionDTO[]>(defaultElections);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await searchElection(andSearchQuery, orSearchQuery);
+      setElections(res);
+    };
+    fetchData();
+  }, [andSearchQuery, orSearchQuery]);
+
   return (
     <Card className="mt-10 max-w-6xl">
-      <CardHeader>
-        <div className="flex items-center justify-between gap-3">
-          <InputGroup>
-            <InputGroupAddon>
-              <SearchIcon />
-            </InputGroupAddon>
-            <InputGroupInput placeholder="検索" />
-          </InputGroup>
-          <ToggleGroup>
-            {["立候補受付中", "投票期間中", "開票済み"].map((label) => (
-              <ToggleGroupItem key="label" variant={"outline"}>
-                {label}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </div>
-      </CardHeader>
+      <SearchHeader
+        setAndSearchQuery={setAndSearchQuery}
+        setOrSearchQuery={setOrSearchQuery}
+      />
       <CardContent>
         <ItemGroup className="w-full">
           {elections.map((election) => (
