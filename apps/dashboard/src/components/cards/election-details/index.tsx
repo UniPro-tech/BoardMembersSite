@@ -24,38 +24,41 @@ export default function ElectionDetailsCard({
           <h3 className="grow">{election.title}</h3>
           <ElectionStatusTip election={election} />
         </div>
-        <ul className="w-full gap-2 flex flex-col">
-          <li className={`${flexPriorityRowClassName}`}>
-            <strong className="grow flex-row flex gap-2 items-center align-center">
-              <CalendarIcon size={20} />
+        <dl className="space-y-3 w-full">
+          <div className="flex justify-between items-center border-b pb-2">
+            <dt className="flex items-center gap-2 font-medium text-muted-foreground">
+              <CalendarIcon size={18} />
               公示日
-            </strong>
-            <span>{election.createdAt.toLocaleString()}</span>
-          </li>
-          <li className={`${flexPriorityRowClassName}`}>
-            <strong className="grow flex-row flex gap-2 items-center align-center">
-              <CalendarIcon size={20} />
+            </dt>
+            <dd>{election.createdAt.toLocaleString()}</dd>
+          </div>
+
+          <div className="flex justify-between items-center border-b pb-2">
+            <dt className="flex items-center gap-2 font-medium text-muted-foreground">
+              <CalendarIcon size={18} />
               開始日時
-            </strong>
-            <span>{election.startAt.toLocaleString()}</span>
-          </li>
+            </dt>
+            <dd>{election.startAt.toLocaleString()}</dd>
+          </div>
+
           {election.standDeadline && (
-            <li className={`${flexPriorityRowClassName}`}>
-              <strong className="grow flex-row flex gap-2 items-center align-center">
-                <CalendarIcon size={20} />
-                立候補締切日
-              </strong>
-              <span>{election.standDeadline.toLocaleString()}</span>
-            </li>
+            <div className="flex justify-between items-center border-b pb-2">
+              <dt className="flex items-center gap-2 font-medium text-muted-foreground">
+                <CalendarIcon size={18} />
+                立候補締切
+              </dt>
+              <dd>{election.standDeadline.toLocaleString()}</dd>
+            </div>
           )}
-          <li className={`${flexPriorityRowClassName}`}>
-            <strong className="grow flex-row flex gap-2 items-center align-center">
-              <CalendarIcon size={20} />
-              投票締切日時
-            </strong>
-            <span>{election.endAt.toLocaleString()}</span>
-          </li>
-        </ul>
+
+          <div className="flex justify-between items-center">
+            <dt className="flex items-center gap-2 font-medium text-muted-foreground">
+              <CalendarIcon size={18} />
+              投票締切
+            </dt>
+            <dd>{election.endAt.toLocaleString()}</dd>
+          </div>
+        </dl>
       </CardHeader>
       <CardContent>
         <div className="text-normal markdown">
