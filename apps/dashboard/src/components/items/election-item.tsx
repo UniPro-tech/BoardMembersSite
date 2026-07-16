@@ -24,9 +24,6 @@ export function ElectionItem({ election }: { election: ElectionDTO }) {
           </ItemTitle>
           <ItemDescription>{election.description}</ItemDescription>
         </ItemContent>
-        <ItemContent className="flex-none text-center">
-          <ItemDescription>{election.isActive}</ItemDescription>
-        </ItemContent>
       </Item>
     </Link>
   );
