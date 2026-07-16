@@ -16,7 +16,7 @@ export default function ElectionDetailsCard({
   return (
     <Card>
       <CardHeader className="flex flex-col md:flex-row align-center items-center">
-        <h2 className="grow">{election.title}</h2>
+        <h3 className="grow">{election.title}</h3>
         <ElectionStatusTip election={election} />
       </CardHeader>
       <CardContent>

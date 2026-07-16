@@ -8,6 +8,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
+import ElectionStatusTip from "../badges/election-status";
 
 export function ElectionItem({ election }: { election: ElectionDTO }) {
   return (
@@ -17,7 +18,10 @@ export function ElectionItem({ election }: { election: ElectionDTO }) {
           <VoteIcon size={8} className="size-8" />
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>{election.title}</ItemTitle>
+          <ItemTitle className="flex flex-row w-full">
+            <div className="grow">{election.title}</div>
+            <ElectionStatusTip election={election} />
+          </ItemTitle>
           <ItemDescription>{election.description}</ItemDescription>
         </ItemContent>
         <ItemContent className="flex-none text-center">
