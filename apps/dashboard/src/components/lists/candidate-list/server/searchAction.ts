@@ -5,12 +5,18 @@ import { type Prisma, prisma } from "@board/prisma";
 import { Candidate, type CandidateDTO } from "@board/shared/classes";
 
 export const searchCandidate = async (
+  electionId: string,
   and: Prisma.CandidateWhereInput[],
   or: Prisma.CandidateWhereInput[],
 ): Promise<CandidateDTO[]> => {
   const dbRes = await prisma.candidate.findMany({
     where: {
-      AND: and,
+      AND: {
+        ...and,
+        electionId: {
+          equals: electionId,
+        },
+      },
       OR: or.length === 0 ? undefined : or,
     },
   });

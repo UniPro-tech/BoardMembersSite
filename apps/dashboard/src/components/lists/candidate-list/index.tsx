@@ -42,11 +42,15 @@ export function CandidateList({
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await searchCandidate(andSearchQuery, orSearchQuery);
+      const res = await searchCandidate(
+        election.id,
+        andSearchQuery,
+        orSearchQuery,
+      );
       setCandidates(res);
     };
     fetchData();
-  }, [andSearchQuery, orSearchQuery]);
+  }, [andSearchQuery, orSearchQuery, election.id]);
 
   return (
     <Card className="mt-10 max-w-6xl">
