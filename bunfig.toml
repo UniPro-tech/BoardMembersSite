@@ -1,2 +1,3 @@
 [run]
 elide-lines = 0
+stream = true
