@@ -1,7 +1,7 @@
 "use client";
 
 import type { Account, User } from "@board/prisma";
-import type { CandidateJSON, VoteJSON } from "@board/shared/classes";
+import type { CandidateJSON, VoteDTO } from "@board/shared/classes";
 import {
   Button,
   Card,
@@ -30,7 +30,7 @@ export default function Client({
     account: Account | undefined;
     isRunoff?: boolean;
   }[];
-  existingVote?: VoteJSON | null;
+  existingVote?: VoteDTO | null;
   canVote?: boolean;
   userId?: string;
   canStand?: boolean;

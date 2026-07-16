@@ -99,7 +99,7 @@ export class Vote {
     });
   }
 
-  toJSON(): VoteJSON {
+  toJson(): VoteDTO {
     return {
       id: this.id,
       userId: this.userId,
@@ -111,7 +111,7 @@ export class Vote {
   }
 }
 
-export interface VoteJSON {
+export interface VoteDTO {
   id: string;
   userId: string;
   candidateId: string;

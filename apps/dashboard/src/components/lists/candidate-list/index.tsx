@@ -1,18 +1,22 @@
 "use client";
 
 import type { Prisma } from "@board/prisma";
-import type { CandidateDTO } from "@board/shared/classes";
+import type { CandidateDTO, ElectionDTO, VoteDTO } from "@board/shared/classes";
 import { useEffect, useState } from "react";
+import { CandidateItem } from "@/components/items/candidate-item";
 import { ItemGroup } from "@/components/ui/item";
 import { Card, CardContent } from "../../ui/card";
 import SearchHeader from "./search-header";
 import { searchCandidate } from "./server/searchAction";
-import { CandidateItem } from "@/components/items/candidate-item";
 
 export function CandidateList({
   defaultCandidates,
+  election,
+  defaultExistingVote,
 }: {
   defaultCandidates: CandidateDTO[];
+  election: ElectionDTO;
+  defaultExistingVote?: VoteDTO;
 }) {
   const [andSearchQuery, setAndSearchQuery] = useState<
     Prisma.CandidateWhereInput[]
@@ -22,6 +26,9 @@ export function CandidateList({
   >([]);
   const [candidates, setCandidates] =
     useState<CandidateDTO[]>(defaultCandidates);
+  const [existingVote, setExistingVote] = useState<VoteDTO | undefined>(
+    defaultExistingVote,
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +47,13 @@ export function CandidateList({
       <CardContent>
         <ItemGroup className="w-full">
           {candidates.map((candidate) => (
-            <CandidateItem candidate={candidate} key={candidate.id} />
+            <CandidateItem
+              candidate={candidate}
+              key={candidate.id}
+              canVote={election.isActive && !election.canStand}
+              existingVote={existingVote}
+              setExistingVote={setExistingVote}
+            />
           ))}
         </ItemGroup>
       </CardContent>

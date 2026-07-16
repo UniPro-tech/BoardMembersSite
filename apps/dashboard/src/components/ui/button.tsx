@@ -32,6 +32,7 @@ const buttonVariants = cva(
       },
       cursor: {
         pointer: "cursor-pointer",
+        prohibit: "cursor-not-allowed",
       },
     },
     defaultVariants: {
