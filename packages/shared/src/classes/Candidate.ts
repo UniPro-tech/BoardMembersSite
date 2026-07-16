@@ -1,9 +1,24 @@
-import {
-  type Candidate as PrismaCandidate,
-  prisma,
-  type User,
-} from "@board/prisma";
+import { type Candidate as PrismaCandidate, prisma } from "@board/prisma";
 import { Election } from "./Election";
+
+export interface UserDTO {
+  id: string;
+  name: string;
+  image: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CandidateDTO {
+  id: string;
+  userId: string;
+  electionId: string;
+  description?: string;
+  isIneligible: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  user: UserDTO;
+}
 
 export class Candidate {
   id: string;
@@ -133,11 +148,19 @@ export class Candidate {
     });
   }
 
-  async getUser(): Promise<User | null> {
+  async getUser(): Promise<UserDTO | null> {
     const candidateWithUser = await prisma.user.findUnique({
       where: { id: this.userId },
     });
-    return candidateWithUser ? candidateWithUser : null;
+    return candidateWithUser
+      ? {
+          id: candidateWithUser.id,
+          name: candidateWithUser.name,
+          image: candidateWithUser.image,
+          createdAt: candidateWithUser.createdAt,
+          updatedAt: candidateWithUser.updatedAt,
+        }
+      : null;
   }
 
   async getElection(): Promise<Election | null> {
@@ -154,7 +177,11 @@ export class Candidate {
     return count;
   }
 
-  toJSON(): CandidateJSON {
+  async toJson(): Promise<CandidateDTO> {
+    const user = await this.getUser();
+    if (!user) {
+      throw new Error("User Not Linked");
+    }
     return {
       id: this.id,
       userId: this.userId,
@@ -163,16 +190,7 @@ export class Candidate {
       isIneligible: this.isIneligible,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      user,
     };
   }
-}
-
-export interface CandidateJSON {
-  id: string;
-  userId: string;
-  electionId: string;
-  description?: string;
-  isIneligible: boolean;
-  createdAt: Date;
-  updatedAt: Date;
 }
