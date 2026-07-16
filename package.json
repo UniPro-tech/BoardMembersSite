@@ -2,14 +2,14 @@
   "name": "boardmember-system",
   "private": true,
   "scripts": {
-    "db:types:generate": "dotenv -e .env -- bun run -F @board/prisma db:types:generate",
-    "db:migrate:dev": "dotenv -e .env -- bun run -F @board/prisma db:migrate:dev",
-    "db:migrate:deploy": "dotenv -e .env -- bun run -F @board/prisma db:migrate:deploy",
-    "db:studio": "dotenv -e .env -- bun run -F @board/prisma db:studio",
-    "dev": "dotenv -e .env -- bun run -F @board/dashboard dev",
-    "lint": "bun run --sequential --workspaces lint",
-    "lint:fix": "bun run --sequential --workspaces lint:fix",
-    "format": "bun run --sequential --workspaces format"
+    "db:types:generate": "dotenv -e .env -- bun run --config='bunfig.toml' -F @board/prisma db:types:generate",
+    "db:migrate:dev": "dotenv -e .env -- bun run --config='bunfig.toml' -F @board/prisma db:migrate:dev",
+    "db:migrate:deploy": "dotenv -e .env -- bun run --config='bunfig.toml' -F @board/prisma db:migrate:deploy",
+    "db:studio": "dotenv -e .env -- bun run --config='bunfig.toml' -F @board/prisma db:studio",
+    "dev": "dotenv -e .env -- bun run --config='bunfig.toml' -F @board/dashboard dev",
+    "lint": "bun run --config='bunfig.toml' --sequential --workspaces lint",
+    "lint:fix": "bun run --config='bunfig.toml' --sequential --workspaces lint:fix",
+    "format": "bun run --config='bunfig.toml' --sequential --workspaces format"
   },
   "workspaces": [
     "apps/*",
