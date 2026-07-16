@@ -2,8 +2,18 @@
 
 import type { Prisma } from "@board/prisma";
 import type { CandidateDTO, ElectionDTO, VoteDTO } from "@board/shared/classes";
+import { UserRoundPlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CandidateItem } from "@/components/items/candidate-item";
+import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { ItemGroup } from "@/components/ui/item";
 import { Card, CardContent } from "../../ui/card";
 import SearchHeader from "./search-header";
@@ -45,17 +55,40 @@ export function CandidateList({
         setOrSearchQuery={setOrSearchQuery}
       />
       <CardContent>
-        <ItemGroup className="w-full">
-          {candidates.map((candidate) => (
-            <CandidateItem
-              candidate={candidate}
-              key={candidate.id}
-              canVote={election.isActive && !election.canStand}
-              existingVote={existingVote}
-              setExistingVote={setExistingVote}
-            />
-          ))}
-        </ItemGroup>
+        {candidates.length > 0 ? (
+          <ItemGroup className="w-full">
+            {candidates.map((candidate) => (
+              <CandidateItem
+                candidate={candidate}
+                key={candidate.id}
+                canVote={election.isActive && !election.canStand}
+                existingVote={existingVote}
+                setExistingVote={setExistingVote}
+              />
+            ))}
+          </ItemGroup>
+        ) : (
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <UserRoundPlusIcon size={20} className="size-8" />
+              </EmptyMedia>
+              <EmptyTitle>該当の立候補者が見つかりません。</EmptyTitle>
+              <EmptyDescription>
+                この選挙の立候補者または検索結果に当てはまる立候補者が見つかりませんでした。
+              </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent className="flex-row justify-center gap-2">
+              <Button
+                size={"sm"}
+                className={"px-6"}
+                disabled={!election.canStand}
+              >
+                {election.canStand ? "立候補する" : "立候補期間外"}
+              </Button>
+            </EmptyContent>
+          </Empty>
+        )}
       </CardContent>
     </Card>
   );
