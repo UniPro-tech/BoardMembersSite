@@ -19,6 +19,7 @@ import { ElectionItem } from "../../items/election-item";
 import { Card, CardContent } from "../../ui/card";
 import SearchHeader from "./search-header";
 import { searchElection } from "./server/searchAction";
+import { useRouter } from "next/navigation";
 
 export function ElectionList({
   defaultElections,
@@ -42,6 +43,8 @@ export function ElectionList({
   }, [andSearchQuery, orSearchQuery]);
 
   const { data: session } = useSession();
+
+  const router = useRouter();
 
   return (
     <Card className="mt-10 max-w-6xl">
@@ -69,7 +72,13 @@ export function ElectionList({
             </EmptyHeader>
             {session?.user.role === "admin" && (
               <EmptyContent className="flex-row justify-center gap-2">
-                <Button size={"sm"} className={"px-6"}>
+                <Button
+                  size={"sm"}
+                  className={"px-6"}
+                  onClick={() => {
+                    router.push(`/elections/new`);
+                  }}
+                >
                   選挙を作成
                 </Button>
               </EmptyContent>

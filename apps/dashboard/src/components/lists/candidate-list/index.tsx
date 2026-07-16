@@ -3,6 +3,7 @@
 import type { Prisma } from "@board/prisma";
 import type { CandidateDTO, ElectionDTO, VoteDTO } from "@board/shared/classes";
 import { UserRoundPlusIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CandidateItem } from "@/components/items/candidate-item";
 import { Button } from "@/components/ui/button";
@@ -52,6 +53,8 @@ export function CandidateList({
     fetchData();
   }, [andSearchQuery, orSearchQuery, election.id]);
 
+  const router = useRouter();
+
   return (
     <Card className="mt-10 max-w-6xl">
       <SearchHeader
@@ -87,6 +90,9 @@ export function CandidateList({
                 size={"sm"}
                 className={"px-6"}
                 disabled={!election.canStand}
+                onClick={() => {
+                  router.push(`/elections/${election.id}/stand`);
+                }}
               >
                 {election.canStand ? "立候補する" : "立候補期間外"}
               </Button>

@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 const PAGE_MAP = {
   ".": "ホーム",
-  election: {
+  elections: {
     ".": "選挙",
     list: {
       ".": "一覧",

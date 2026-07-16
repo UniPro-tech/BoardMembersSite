@@ -48,20 +48,20 @@ const data = {
     },
     {
       title: "選挙",
-      url: "/election",
+      url: "/elections",
       icon: <VoteIcon />,
       items: [
         {
           title: "選挙一覧",
-          url: "/election/list",
+          url: "/elections/list",
         },
         {
           title: "立候補可能な選挙",
-          url: "/election/can_stand",
+          url: "/elections/can_stand",
         },
         {
           title: "投票可能な選挙",
-          url: "/election/can_vote",
+          url: "/elections/can_vote",
         },
       ],
     },

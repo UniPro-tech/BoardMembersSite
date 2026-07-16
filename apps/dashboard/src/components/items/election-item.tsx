@@ -12,7 +12,7 @@ import ElectionStatusTip from "../badges/election-status";
 
 export function ElectionItem({ election }: { election: ElectionDTO }) {
   return (
-    <Link href={`/election/${election.id}`}>
+    <Link href={`/elections/${election.id}`}>
       <Item variant={"outline"}>
         <ItemMedia variant="icon">
           <VoteIcon size={8} className="size-8" />
