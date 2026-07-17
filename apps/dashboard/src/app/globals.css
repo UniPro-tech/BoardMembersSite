@@ -54,6 +54,8 @@
   --text-h2--line-height: 1;
   --text-h3: 2.4rem;
   --text-h3--line-height: 1;
+  --text-h4: 1.8rem;
+  --text-h4--line-height: 1;
   --text-xs: 1.2rem;
   --text-xs--line-height: 1;
 }
@@ -72,6 +74,10 @@ h2 {
 
 h3 {
   @apply text-h3;
+}
+
+h4 {
+  @apply text-h4;
 }
 
 /* Markdown Styles */
