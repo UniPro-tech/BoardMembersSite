@@ -20,6 +20,7 @@ import { Card, CardContent } from "../../ui/card";
 import SearchHeader from "./search-header";
 import { searchElection } from "./server/searchAction";
 import { useRouter } from "next/navigation";
+import CreateElectionButton from "@/components/buttons/create-election";
 
 export function ElectionList({
   defaultElections,
@@ -70,19 +71,7 @@ export function ElectionList({
                 検索結果に当てはまる選挙が見つかりませんでした。
               </EmptyDescription>
             </EmptyHeader>
-            {session?.user.role === "admin" && (
-              <EmptyContent className="flex-row justify-center gap-2">
-                <Button
-                  size={"sm"}
-                  className={"px-6"}
-                  onClick={() => {
-                    router.push(`/elections/new`);
-                  }}
-                >
-                  選挙を作成
-                </Button>
-              </EmptyContent>
-            )}
+            {session?.user.role === "admin" && <CreateElectionButton />}
           </Empty>
         )}
       </CardContent>
