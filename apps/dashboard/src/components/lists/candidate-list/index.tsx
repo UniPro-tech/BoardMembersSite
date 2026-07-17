@@ -19,6 +19,8 @@ import { ItemGroup } from "@/components/ui/item";
 import { Card, CardContent } from "../../ui/card";
 import SearchHeader from "./search-header";
 import { searchCandidate } from "./server/searchAction";
+import StandCandidate from "@/components/buttons/stand-candidate";
+import StandCandidateButton from "@/components/buttons/stand-candidate";
 
 export function CandidateList({
   defaultCandidates,
@@ -58,6 +60,7 @@ export function CandidateList({
   return (
     <Card className="mt-10 max-w-6xl">
       <SearchHeader
+        election={election}
         setAndSearchQuery={setAndSearchQuery}
         setOrSearchQuery={setOrSearchQuery}
       />
@@ -86,16 +89,7 @@ export function CandidateList({
               </EmptyDescription>
             </EmptyHeader>
             <EmptyContent className="flex-row justify-center gap-2">
-              <Button
-                size={"sm"}
-                className={"px-6"}
-                disabled={!election.canStand}
-                onClick={() => {
-                  router.push(`/elections/${election.id}/stand`);
-                }}
-              >
-                {election.canStand ? "立候補する" : "立候補期間外"}
-              </Button>
+              <StandCandidateButton election={election} />
             </EmptyContent>
           </Empty>
         )}
