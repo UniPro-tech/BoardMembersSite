@@ -365,6 +365,8 @@ export class Election {
   toJson(): ElectionDTO {
     return {
       ...this,
+      canStand: this.canStand,
+      isActive: this.isActive,
     };
   }
 }
