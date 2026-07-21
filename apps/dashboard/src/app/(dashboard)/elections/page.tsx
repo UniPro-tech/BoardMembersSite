@@ -1,8 +1,6 @@
 import { Election } from "@board/shared/classes";
-import { ElectionList } from "@/components/lists/election-list";
-import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
 import CreateElectionButton from "@/components/buttons/create-election";
+import { ElectionList } from "@/components/lists/election-list";
 
 export const dynamic = "force-dynamic";
 

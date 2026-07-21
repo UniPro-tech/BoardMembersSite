@@ -1,8 +1,8 @@
 "use client";
 
-import { ElectionDTO } from "@board/shared/classes";
-import { Button } from "../ui/button";
+import type { ElectionDTO } from "@board/shared/classes";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 export default function StandCandidateButton({
   election,
