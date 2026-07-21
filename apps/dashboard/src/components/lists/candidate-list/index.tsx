@@ -5,8 +5,8 @@ import type { CandidateDTO, ElectionDTO, VoteDTO } from "@board/shared/classes";
 import { UserRoundPlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import StandCandidateButton from "@/components/buttons/stand-candidate";
 import { CandidateItem } from "@/components/items/candidate-item";
-import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyContent,
@@ -19,8 +19,6 @@ import { ItemGroup } from "@/components/ui/item";
 import { Card, CardContent } from "../../ui/card";
 import SearchHeader from "./search-header";
 import { searchCandidate } from "./server/searchAction";
-import StandCandidate from "@/components/buttons/stand-candidate";
-import StandCandidateButton from "@/components/buttons/stand-candidate";
 
 export function CandidateList({
   defaultCandidates,

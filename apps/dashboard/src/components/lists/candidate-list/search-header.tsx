@@ -1,14 +1,14 @@
 import type { Prisma } from "@board/prisma";
+import type { ElectionDTO } from "@board/shared/classes";
 import { SearchIcon } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
+import StandCandidateButton from "@/components/buttons/stand-candidate";
 import { CardHeader } from "@/components/ui/card";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import StandCandidateButton from "@/components/buttons/stand-candidate";
-import { ElectionDTO } from "@board/shared/classes";
 
 export default function SearchHeader({
   election,

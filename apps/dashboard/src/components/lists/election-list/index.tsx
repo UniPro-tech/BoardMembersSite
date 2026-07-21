@@ -3,11 +3,11 @@
 import type { Prisma } from "@board/prisma";
 import type { ElectionDTO } from "@board/shared/classes";
 import { UserRoundPlusIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import CreateElectionButton from "@/components/buttons/create-election";
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
@@ -19,8 +19,6 @@ import { ElectionItem } from "../../items/election-item";
 import { Card, CardContent } from "../../ui/card";
 import SearchHeader from "./search-header";
 import { searchElection } from "./server/searchAction";
-import { useRouter } from "next/navigation";
-import CreateElectionButton from "@/components/buttons/create-election";
 
 export function ElectionList({
   defaultElections,
