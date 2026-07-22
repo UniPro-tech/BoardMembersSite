@@ -27,7 +27,7 @@ export function CandidateItem({
 }) {
   const router = useRouter();
   return (
-    <Item variant={"outline"}>
+    <Item variant={"outline"} id={candidate.id}>
       <ItemMedia variant="icon">
         <Avatar className={"size-16"}>
           <AvatarImage src={candidate.user.image || undefined} />

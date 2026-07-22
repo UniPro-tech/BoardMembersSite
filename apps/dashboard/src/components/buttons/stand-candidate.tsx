@@ -16,7 +16,7 @@ export default function StandCandidateButton({
       className={"px-6"}
       disabled={!election.canStand}
       onClick={() => {
-        router.push(`/elections/${election.id}/stand`);
+        router.push(`/elections/${election.id}/candidates/stand`);
       }}
     >
       {election.canStand ? "立候補する" : "立候補期間外"}
