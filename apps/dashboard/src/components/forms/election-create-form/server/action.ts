@@ -2,7 +2,9 @@
 import "server-only";
 
 import { Election } from "@board/shared/classes";
+import { headers } from "next/headers";
 import type * as z from "zod";
+import { auth } from "@/libs/auth";
 import { formSchema } from "../shared/schema";
 
 export const createElectionAction = async (params: {
@@ -24,6 +26,10 @@ export const createElectionAction = async (params: {
   if (isRunoff && !parentElection) {
     throw new Error("親選挙が見つかりません");
   }
+
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) throw new Error("ログインしてください。");
+  if (session.user.role !== "admin") throw new Error("権限が不足しています。");
 
   const { title, description, capacity, startAt, standDeadline, endAt } = data;
 

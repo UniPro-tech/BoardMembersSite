@@ -61,6 +61,13 @@ export function ElectionCreateForm({
           return "選挙を作成しました！";
         },
         error: (e: Error) => {
+          if (e.message === "ログインしてください。") {
+            router.push("/signin");
+            return {
+              message: "エラーが発生しました",
+              description: e.message,
+            };
+          }
           return {
             message: "エラーが発生しました",
             description: e.message,
