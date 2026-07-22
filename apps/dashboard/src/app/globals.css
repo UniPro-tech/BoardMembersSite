@@ -46,8 +46,8 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --text-sm: 1.4rem;
-  --text-sm--line-height: 1;
+  --text-sm: 1.6rem;
+  --text-sm--line-height: 2;
   --text-normal: 1.6rem;
   --text-normal--letter-spacing: 0.18rem;
   --text-h2: 3rem;
