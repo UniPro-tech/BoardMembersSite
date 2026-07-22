@@ -10,7 +10,6 @@ export default async function VotePage() {
   if (!sesssion) {
     unauthorized();
   }
-  console.log(sesssion.user.role);
   if (sesssion.user.role !== "admin") {
     forbidden();
   }
